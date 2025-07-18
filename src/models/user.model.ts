@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema<IUser>(
       type: String,
       required: [true, "aadhaar number is required"],
       unique: true,
-      minLength: 8,
+      minLength: 12,
     },
     password: {
       type: String,
