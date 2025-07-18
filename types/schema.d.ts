@@ -6,6 +6,7 @@ interface IUser {
   email: string;
   password: string;
   aadhaarNumber: string;
+  isVerified: boolean;
   createdAt?: Date;
   updatedAt?: Date;
 }
