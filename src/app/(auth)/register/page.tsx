@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import Error from "@/components/shared/error";
+import axios from "axios";
 
 const formSchema = z
   .object({
@@ -40,8 +41,13 @@ export default function RegisterPage() {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      const response = await axios.post("/api/auth/register", values);
+      console.log(response.data.message);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (

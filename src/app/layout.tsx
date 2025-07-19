@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
 import "./globals.css";
 import ProtectedRoutes from "@/components/auth/context/protected-routes";
+import QueryContext from "@/components/context/query-context";
+import { Toaster } from "react-hot-toast";
 
 const nunito = Nunito({
   subsets: ["latin"],
@@ -22,7 +24,12 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${nunito.className} antialiased`}>
         <ProtectedRoutes>
-          <main>{children}</main>
+          <main>
+            <QueryContext>
+              {children}
+              <Toaster />
+            </QueryContext>
+          </main>
         </ProtectedRoutes>
       </body>
     </html>
