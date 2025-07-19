@@ -1,6 +1,5 @@
 interface EmailTemplateProps {
   name: string;
-  aadhaarNumber: string;
 }
 
 export function EmailTemplate({ name }: EmailTemplateProps) {
