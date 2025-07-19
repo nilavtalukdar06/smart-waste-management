@@ -27,7 +27,7 @@ export function EmailTemplate({ name }: EmailTemplateProps) {
         Let&apos;s work together to make every street shine. 🌍💚
       </p>
       <p className="my-2">
-        If you have any questions, feel free to reach out to us at
+        If you have any questions, feel free to reach out to us at{" "}
         <a
           href="mailto:nilavtalukdar9@gmail.com"
           target="_blank"
