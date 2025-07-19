@@ -7,8 +7,8 @@ export function EmailTemplate({ name }: EmailTemplateProps) {
     <div>
       <h1 className="text-2xl font-medium text-green-500">Hi , {name}!</h1>
       <p className="my-2">
-        Welcome to Eco Swachh - we're excited to have you join our mission for a
-        cleaner, greener India! 🇮🇳✨
+        Welcome to Eco Swachh - we&apos;re excited to have you join our mission
+        for a cleaner, greener India! 🇮🇳✨
       </p>
       <p className="my-2">
         Your journey towards making a real impact in your community starts now.
