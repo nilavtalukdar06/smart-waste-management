@@ -3,6 +3,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
+import { useMutation } from "@tanstack/react-query";
 import {
   Form,
   FormControl,
@@ -14,6 +15,10 @@ import {
 import { Input } from "@/components/ui/input";
 import Error from "@/components/shared/error";
 import axios from "axios";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import { Loader } from "lucide-react";
 
 const formSchema = z
   .object({
@@ -31,6 +36,8 @@ const formSchema = z
   });
 
 export default function RegisterPage() {
+  const router = useRouter();
+  const [error, setError] = useState<string>("");
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -41,20 +48,36 @@ export default function RegisterPage() {
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    try {
+  const mutation = useMutation({
+    mutationFn: async (values: z.infer<typeof formSchema>) => {
       const response = await axios.post("/api/auth/register", values);
       console.log(response.data.message);
-    } catch (error) {
-      console.error(error);
-    }
+    },
+    onSuccess: () => {
+      form.reset();
+      router.push("/login");
+    },
+    onError: (error) => {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 409) {
+          toast.error("You have already registered");
+          router.push("/");
+        }
+      } else {
+        setError("Failed to register, please try again later");
+      }
+    },
+  });
+
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
+    mutation.mutate(values);
   };
 
   return (
     <section className="my-6 w-full">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-          <Error error="Failed to register" />
+          {error && <Error error={error} />}
           <FormField
             control={form.control}
             name="name"
@@ -99,7 +122,7 @@ export default function RegisterPage() {
                   <Input
                     placeholder="Enter your aadhaar number"
                     {...field}
-                    type="password"
+                    type="text"
                   />
                 </FormControl>
                 <FormMessage />
@@ -140,8 +163,17 @@ export default function RegisterPage() {
               </FormItem>
             )}
           />
-          <Button type="submit" className="w-full" variant="secondary">
-            Submit
+          <Button
+            type="submit"
+            className="w-full"
+            variant="secondary"
+            disabled={mutation.isPending}
+          >
+            {mutation.isPending ? (
+              <Loader className="animate-spin" color="white" />
+            ) : (
+              "Register Now"
+            )}
           </Button>
         </form>
       </Form>
