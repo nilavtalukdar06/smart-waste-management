@@ -23,6 +23,13 @@ export function EmailTemplate({ name }: EmailTemplateProps) {
         If you don&apos;t verify your account within 7 days, it will be
         automatically deleted for security and system cleanliness.
       </p>
+      <a
+        href={`${process.env.NEXTAUTH_URL}/security`}
+        target="_blank"
+        className="text-blue-500 underline my-2 font-medium"
+      >
+        Verify Here
+      </a>
       <p className="my-2">
         Let&apos;s work together to make every street shine. 🌍💚
       </p>
