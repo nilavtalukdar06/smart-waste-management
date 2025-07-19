@@ -11,9 +11,7 @@ export default function AuthLayout({
           <Button className="pointer-events-none" variant="secondary">
             <Leaf />
           </Button>
-          <p className="text-xl font-medium text-gray-600 hidden sm:inline-flex">
-            Eco Swachh
-          </p>
+          <p className="text-xl font-medium text-gray-600">Eco Swachh</p>
         </div>
         <p className="text text-neutral-400 font-light">
           One more step towards the clean India
