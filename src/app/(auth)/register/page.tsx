@@ -12,6 +12,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import Error from "@/components/shared/error";
 
 const formSchema = z
   .object({
@@ -47,6 +48,7 @@ export default function RegisterPage() {
     <section className="my-6 w-full">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+          <Error error="Failed to register" />
           <FormField
             control={form.control}
             name="name"
