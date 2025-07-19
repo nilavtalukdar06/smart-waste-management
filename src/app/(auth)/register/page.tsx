@@ -19,6 +19,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { Loader } from "lucide-react";
+import Link from "next/link";
 
 const formSchema = z
   .object({
@@ -62,11 +63,13 @@ export default function RegisterPage() {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 409) {
           toast.error("You have already registered");
-          router.push("/");
+          router.push("/login");
         } else {
-          setError(error?.message);
+          console.log(error?.message);
+          setError("Failed to register, please try again later");
         }
       } else {
+        console.log(error);
         setError("Failed to register, please try again later");
       }
     },
@@ -180,6 +183,12 @@ export default function RegisterPage() {
           </Button>
         </form>
       </Form>
+      <div className="w-full my-4 text-center text-neutral-400 text-sm font-light">
+        Already have an account?{" "}
+        <Link href="/login" className="underline">
+          Login
+        </Link>
+      </div>
     </section>
   );
 }
