@@ -8,7 +8,7 @@ export default async function AuthLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   const session = await getServerSession(authOptions);
-  if (!session || session.user.isVerified) {
+  if (session) {
     redirect("/");
   }
 
