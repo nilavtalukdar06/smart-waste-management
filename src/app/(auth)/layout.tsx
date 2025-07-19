@@ -5,7 +5,7 @@ export default function AuthLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <section className="max-w-sm mx-auto my-24 p-4">
+    <section className="max-w-sm mx-auto my-12 p-4">
       <div className="flex flex-col justify-center items-center gap-4">
         <div className="flex justify-center items-center gap-x-3">
           <Button className="pointer-events-none" variant="secondary">
