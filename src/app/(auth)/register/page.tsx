@@ -63,6 +63,8 @@ export default function RegisterPage() {
         if (error.response?.status === 409) {
           toast.error("You have already registered");
           router.push("/");
+        } else {
+          setError(error?.message);
         }
       } else {
         setError("Failed to register, please try again later");
