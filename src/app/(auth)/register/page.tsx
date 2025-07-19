@@ -45,6 +45,7 @@ export default function RegisterPage() {
       email: "",
       password: "",
       aadhaarNumber: "",
+      confirmPassword: "",
     },
   });
 
