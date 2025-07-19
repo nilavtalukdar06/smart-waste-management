@@ -38,7 +38,6 @@ const authOptions = {
             email: existingUser.email,
             isVerified: existingUser.isVerified,
             rewards: existingUser.rewards,
-            imageUrl: existingUser.imageUrl,
           };
         } catch (error) {
           throw error;
