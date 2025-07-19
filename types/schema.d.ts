@@ -5,7 +5,6 @@ interface IUser {
   name: string;
   email: string;
   password: string;
-  imageUrl: string;
   aadhaarNumber: string;
   isVerified: boolean;
   rewards: number;

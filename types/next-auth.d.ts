@@ -8,7 +8,6 @@ declare module "next-auth" {
       email: string;
       rewards: number;
       isVerified: boolean;
-      imageUrl: string;
     } & DefaultSession["user"];
   }
 
@@ -18,7 +17,6 @@ declare module "next-auth" {
     email: string;
     rewards: number;
     isVerified: boolean;
-    imageUrl: string;
   }
 }
 
@@ -29,6 +27,5 @@ declare module "next-auth/jwt" {
     email: string;
     rewards: number;
     isVerified: boolean;
-    imageUrl: string;
   }
 }

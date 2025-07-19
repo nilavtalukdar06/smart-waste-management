@@ -18,14 +18,6 @@ const userSchema = new mongoose.Schema<IUser>(
         "email is not valid",
       ],
     },
-    imageUrl: {
-      type: String,
-      required: [true, "profile image is required"],
-      match: [
-        /^(https?:\/\/)?([\w\-]+\.)+[\w\-]+(\/[\w\-._~:/?#[\]@!$&'()*+,;=]*)?$/,
-        "image is not valid",
-      ],
-    },
     aadhaarNumber: {
       type: String,
       required: [true, "aadhaar number is required"],

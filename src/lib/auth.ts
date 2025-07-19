@@ -53,7 +53,6 @@ const authOptions = {
         token.email = user.email;
         token.name = user.name;
         token.isVerified = user.isVerified;
-        token.imageUrl = user.imageUrl;
       }
       if (token.id) {
         await connectToMongoDb();
@@ -71,7 +70,6 @@ const authOptions = {
         session.user.name = token.name;
         session.user.isVerified = token.isVerified;
         session.user.rewards = token.rewards;
-        session.user.imageUrl = token.imageUrl;
       }
       return session;
     },

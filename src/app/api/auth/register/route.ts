@@ -8,13 +8,6 @@ const registrationSchema = z.object({
   name: z.string().min(2, { message: "name is too short" }),
   email: z.string().email({ message: "email is not valid" }),
   password: z.string().min(8, { message: "password is too short" }),
-  imageUrl: z
-    .string()
-    .min(2, { message: "url is too short" })
-    .regex(
-      /^(https?:\/\/)?([\w\-]+\.)+[\w\-]+(\/[\w\-._~:/?#[\]@!$&'()*+,;=]*)?$/,
-      { message: "image url is not valid" }
-    ),
   aadhaarNumber: z
     .string()
     .length(12, { message: "aadhaar number is not valid" }),
@@ -23,13 +16,7 @@ const registrationSchema = z.object({
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    if (
-      !body.name ||
-      !body.email ||
-      !body.password ||
-      !body.aadhaarNumber ||
-      !body.imageUrl
-    ) {
+    if (!body.name || !body.email || !body.password || !body.aadhaarNumber) {
       return NextResponse.json(
         { error: "missing required fields" },
         { status: 400 }
