@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
     }
     await connectToMongoDb();
     const existingUser = await User.findOne({
-      $and: [{ email: body.email }, { aadhaarNumber: body.aadhaarNumber }],
+      $or: [{ email: body.email }, { aadhaarNumber: body.aadhaarNumber }],
     });
     if (existingUser) {
       return NextResponse.json(
