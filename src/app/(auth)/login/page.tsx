@@ -13,7 +13,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
-import toast from "react-hot-toast";
+import { useMutation } from "@tanstack/react-query";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import Error from "@/components/shared/error";
+import { Loader } from "lucide-react";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Email is not valid" }),
@@ -21,6 +26,8 @@ const formSchema = z.object({
 });
 
 export default function Login() {
+  const router = useRouter();
+  const [error, setError] = useState<string | null | undefined>("");
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -29,14 +36,36 @@ export default function Login() {
     },
   });
 
+  const mutation = useMutation({
+    mutationFn: async (values: z.infer<typeof formSchema>) => {
+      const result = await signIn("credentials", {
+        redirect: false,
+        email: values.email,
+        password: values.password,
+      });
+      if (result?.ok) {
+        form.reset();
+        router.push("/");
+      }
+      if (result?.error) {
+        setError(result.error);
+      }
+    },
+    onError: (error) => {
+      console.log(error);
+      setError("Failed to login");
+    },
+  });
+
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+    mutation.mutate(values);
   };
 
   return (
     <section className="my-6 w-full">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+          {error && <Error error={error} />}
           <FormField
             control={form.control}
             name="email"
@@ -71,15 +100,20 @@ export default function Login() {
               </FormItem>
             )}
           />
-          <Button type="submit" className="w-full" variant="secondary">
-            Login
+          <Button
+            type="submit"
+            className="w-full"
+            variant="secondary"
+            disabled={mutation.isPending}
+          >
+            {mutation.isPending ? <Loader className="animate-spin" /> : "Login"}
           </Button>
         </form>
       </Form>
       <div className="w-full my-4 text-center text-neutral-400 text-sm font-light">
-        Already have an account?{" "}
-        <Link href="/login" className="underline">
-          Login
+        Don&apos;t have an account?{" "}
+        <Link href="/register" className="underline">
+          Register
         </Link>
       </div>
     </section>
