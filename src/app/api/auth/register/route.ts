@@ -3,6 +3,7 @@ import User from "@/models/user.model";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
+import { inngest } from "@/lib/inngest";
 
 const registrationSchema = z.object({
   name: z.string().min(2, { message: "name is too short" }),
@@ -37,7 +38,16 @@ export async function POST(request: NextRequest) {
       );
     }
     const hashedPassword = await bcrypt.hash(body.password, 10);
-    await User.create({ ...parsedData.data, password: hashedPassword });
+    const user = await User.create({
+      ...parsedData.data,
+      password: hashedPassword,
+    });
+    await inngest.send({
+      name: "user/registered",
+      data: {
+        userId: user._id.toString(),
+      },
+    });
     return NextResponse.json(
       { message: "user registered successfully" },
       { status: 201 }
