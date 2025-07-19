@@ -58,7 +58,9 @@ const authOptions = {
       if (token.id) {
         await connectToMongoDb();
         const existingUser = await userModel.findById(token.id);
-        token.rewards = existingUser.rewards;
+        if (existingUser) {
+          token.rewards = existingUser.rewards;
+        }
       }
       return token;
     },

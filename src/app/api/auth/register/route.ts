@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
       );
     }
     const hashedPassword = await bcrypt.hash(body.password, 10);
-    await User.create({ ...body, password: hashedPassword });
+    await User.create({ ...parsedData.data, password: hashedPassword });
     return NextResponse.json(
       { message: "user registered successfully" },
       { status: 201 }
