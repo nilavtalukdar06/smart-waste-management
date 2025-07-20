@@ -55,12 +55,12 @@ export default function AppSidebar() {
     <Sidebar>
       <SidebarHeader>
         <div className="flex flex-col justify-center items-start gap-y-6">
-          <div className="flex justify-center items-center gap-x-3">
+          <Link className="flex justify-center items-center gap-x-3" href="/">
             <Button className="pointer-events-none" variant="secondary">
               <Leaf />
             </Button>
             <p className="text-xl font-medium text-gray-800">Eco Swachh</p>
-          </div>
+          </Link>
           {status === "loading" ? (
             <Skeleton className="w-full h-4 rounded-lg" />
           ) : (
