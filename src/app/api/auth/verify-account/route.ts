@@ -4,6 +4,7 @@ import User from "@/models/user.model";
 import main from "@/utils/gcp/verify-account";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
+import { inngest } from "@/lib/inngest";
 import { z } from "zod";
 
 const bodySchema = z.object({
@@ -19,7 +20,7 @@ const bodySchema = z.object({
 export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session) {
+    if (!session || session.user.isVerified) {
       return NextResponse.json(
         { error: "unauthorized access" },
         { status: 401 }
@@ -49,7 +50,18 @@ export async function POST(request: NextRequest) {
       );
     }
     const cleanedOutput = result.replace(/```json|```/g, "").trim();
-    return NextResponse.json(JSON.parse(cleanedOutput), { status: 200 });
+    const output = JSON.parse(cleanedOutput);
+    if (output.isValid) {
+      await inngest.send({
+        name: "user/verified",
+        data: {
+          userId: session.user.id,
+          name: session.user.name,
+          email: session.user.email,
+        },
+      });
+    }
+    return NextResponse.json(output, { status: 200 });
   } catch (error) {
     console.error(error);
     return NextResponse.json(
