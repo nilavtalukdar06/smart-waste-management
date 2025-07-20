@@ -2,11 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import {
-  ArrowUp,
-  Paperclip,
-  Square,
-} from "lucide-react";
+import { ArrowUp, Paperclip, Square } from "lucide-react";
 import { omit } from "remeda";
 
 import { cn } from "@/lib/utils";
@@ -22,7 +18,6 @@ interface MessageInputBaseProps
   stop?: () => void;
   isGenerating: boolean;
   enableInterrupt?: boolean;
-  transcribeAudio?: (blob: Blob) => Promise<string>;
 }
 
 interface MessageInputWithoutAttachmentProps extends MessageInputBaseProps {
@@ -145,7 +140,7 @@ export function MessageInput({
     onKeyDownProp?.(event);
   };
 
-  const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  const textAreaRef = useRef<any>(null);
   const [textAreaHeight, setTextAreaHeight] = useState<number>(0);
 
   useEffect(() => {
@@ -180,7 +175,7 @@ export function MessageInput({
       )}
 
       <div className="relative flex w-full items-center space-x-2">
-        <div className="relative flex-1">
+        <div className="relative w-full">
           <textarea
             aria-label="Write your prompt here"
             placeholder={placeholder}
@@ -188,7 +183,7 @@ export function MessageInput({
             onPaste={onPaste}
             onKeyDown={onKeyDown}
             className={cn(
-              "z-10 w-full grow resize-none rounded-xl border border-input bg-background p-3 pr-24 text-sm ring-offset-background transition-[border] placeholder:text-muted-foreground focus-visible:border-primary focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50",
+              "z-10 w-full rounded-xl border border-input bg-background p-3 pr-24 text-sm ring-offset-background transition-[border] placeholder:text-muted-foreground focus-visible:border-green-500 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 min-h-24",
               showFileList && "pb-16",
               className
             )}
@@ -198,7 +193,7 @@ export function MessageInput({
           />
 
           {props.allowAttachments && (
-            <div className="absolute inset-x-3 bottom-0 z-20 overflow-x-scroll py-3">
+            <div className="absolute inset-x-3 bottom-0 z-20 overflow-x-auto py-3">
               <div className="flex space-x-3">
                 <AnimatePresence mode="popLayout">
                   {props.files?.map((file) => {
@@ -247,6 +242,7 @@ export function MessageInput({
           <Button
             type="button"
             size="icon"
+            variant="secondary"
             className="h-8 w-8"
             aria-label="Stop generating"
             onClick={stop}
@@ -257,6 +253,7 @@ export function MessageInput({
           <Button
             type="submit"
             size="icon"
+            variant="secondary"
             className="h-8 w-8 transition-opacity"
             aria-label="Send message"
             disabled={props.value === "" || isGenerating}

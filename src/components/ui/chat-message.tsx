@@ -13,7 +13,7 @@ const chatBubbleVariants = cva(
   {
     variants: {
       isUser: {
-        true: "bg-primary text-primary-foreground",
+        true: "bg-green-500 text-primary-foreground",
         false: "bg-muted text-foreground",
       },
       animation: {
@@ -206,7 +206,7 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
             <div className={cn(chatBubbleVariants({ isUser, animation }))}>
               <MarkdownRenderer>{part.text}</MarkdownRenderer>
               {actions ? (
-                <div className="absolute -bottom-4 right-2 flex space-x-1 rounded-lg border bg-background p-1 text-foreground opacity-0 transition-opacity group-hover/message:opacity-100">
+                <div className="absolute -bottom-10 right-0 flex space-x-1 rounded-lg border bg-background p-1 text-foreground opacity-0 transition-opacity group-hover/message:opacity-100">
                   {actions}
                 </div>
               ) : null}
