@@ -1,8 +1,9 @@
 import authOptions from "@/lib/auth";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import AppSidebar from "@/components/shared/app-sidebar";
+import Topbar from "@/components/shared/topbar";
 
 export default async function Layout({
   children,
@@ -15,8 +16,8 @@ export default async function Layout({
   return (
     <SidebarProvider>
       <AppSidebar />
-      <aside>
-        <SidebarTrigger className="md:hidden" />
+      <aside className="w-full">
+        <Topbar />
         {children}
       </aside>
     </SidebarProvider>
