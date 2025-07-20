@@ -8,7 +8,7 @@ interface IRewards {
 
 const useRewards = create<IRewards>((set) => ({
   rewards: 5,
-  setInitialRewards: (reward: number) => set((state) => ({ rewards: reward })),
+  setInitialRewards: (reward: number) => set(() => ({ rewards: reward })),
   setRewards: (reward: number) =>
     set((state) => ({ rewards: state.rewards + reward })),
 }));

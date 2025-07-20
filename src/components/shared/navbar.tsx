@@ -6,9 +6,19 @@ import Image from "next/image";
 import { Skeleton } from "../ui/skeleton";
 import { useSession } from "next-auth/react";
 import LogoutButton from "../auth/logout-button";
+import useRewards from "@/store/rewards";
+import { useEffect } from "react";
 
 export default function Navbar() {
   const { data: session, status } = useSession();
+  const { rewards, setInitialRewards } = useRewards();
+
+  useEffect(() => {
+    if (session && status === "authenticated") {
+      setInitialRewards(session.user.rewards);
+    }
+  }, [session, status]);
+
   return (
     <header className="px-5 py-4 w-full flex justify-between items-center">
       <div className="flex justify-center items-center gap-x-3">
@@ -20,7 +30,7 @@ export default function Navbar() {
         </p>
       </div>
       <div className="flex justify-center items-center gap-x-6">
-        {true && (
+        {status === "authenticated" && session && (
           <div className="flex justify-center items-center gap-x-2">
             <Image
               src="/credit.svg"
@@ -28,7 +38,7 @@ export default function Navbar() {
               width={25}
               alt="picture of a coin"
             />
-            <p className="text-neutral-500">Coins: 50</p>
+            <p className="text-neutral-500">Coins: {rewards}</p>
           </div>
         )}
         {status === "loading" ? (
