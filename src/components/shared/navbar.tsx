@@ -17,7 +17,7 @@ export default function Navbar() {
     if (session && status === "authenticated") {
       setInitialRewards(session.user.rewards);
     }
-  }, [session, status]);
+  }, [session, status, setInitialRewards]);
 
   return (
     <header className="px-5 py-4 w-full flex justify-between items-center">

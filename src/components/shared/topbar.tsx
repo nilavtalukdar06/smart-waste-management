@@ -18,7 +18,7 @@ export default function Topbar() {
     if (session && status === "authenticated") {
       setInitialRewards(session.user.rewards);
     }
-  }, [session, status]);
+  }, [session, status, setInitialRewards]);
 
   return (
     <header className="flex justify-between md:justify-end items-center p-3 border-b">
