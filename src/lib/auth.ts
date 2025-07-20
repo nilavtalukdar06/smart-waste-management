@@ -51,13 +51,13 @@ const authOptions = {
         token.id = user.id;
         token.email = user.email;
         token.name = user.name;
-        token.isVerified = user.isVerified;
       }
       if (token.id) {
         await connectToMongoDb();
         const existingUser = await userModel.findById(token.id);
         if (existingUser) {
           token.rewards = existingUser.rewards;
+          token.isVerified = existingUser.isVerified;
         }
       }
       return token;
