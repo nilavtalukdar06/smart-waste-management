@@ -3,7 +3,7 @@ import connectToMongoDb from "@/db";
 import User from "@/models/user.model";
 
 export const updateUser = inngest.createFunction(
-  { id: "delete-unverified-user" },
+  { id: "update-verified-user" },
   { event: "user/verified" },
   async ({ event }) => {
     await connectToMongoDb();
