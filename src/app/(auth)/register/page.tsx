@@ -128,7 +128,7 @@ export default function RegisterPage() {
                   <Input
                     placeholder="Enter your aadhaar number"
                     {...field}
-                    type="text"
+                    type="number"
                   />
                 </FormControl>
                 <FormMessage />
