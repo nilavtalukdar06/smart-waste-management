@@ -5,11 +5,14 @@ import { UploadDropzone } from "@/components/upload/uploadthing";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import { Loader } from "lucide-react";
+import { Home, Loader } from "lucide-react";
+import Success from "@/components/shared/success";
+import Link from "next/link";
 
 export default function VerifyAccount() {
   const [imageUrl, setImageUrl] = useState<string>("");
   const [error, setError] = useState<string>("");
+  const [verification, setVerification] = useState<string>("");
 
   const mutation = useMutation({
     mutationFn: async () => {
@@ -22,6 +25,9 @@ export default function VerifyAccount() {
         );
         setImageUrl("");
       }
+      setVerification(
+        "Congrats! you have verified your identity, you will soon recieve an email regarding it"
+      );
     },
     onError: (error) => {
       if (axios.isAxiosError(error)) {
@@ -40,33 +46,47 @@ export default function VerifyAccount() {
   return (
     <section className="my-6 w-full">
       {error && <Error error={error} />}
-      <UploadDropzone
-        disabled={Boolean(imageUrl)}
-        endpoint="imageUploader"
-        onClientUploadComplete={(res) => {
-          setImageUrl(res[0].ufsUrl);
-        }}
-        onUploadError={(error) => {
-          console.log(error);
-          setError("Failed to upload image, please try again later");
-          setImageUrl("");
-        }}
-      />
-      <Button
-        variant="secondary"
-        className="w-full my-4"
-        disabled={!imageUrl || mutation.isPending}
-        onClick={handleSubmit}
-      >
-        {mutation.isPending ? (
-          <span className="flex justify-center items-center gap-x-4">
-            <Loader className="animate-spin" />
-            Wait...
-          </span>
-        ) : (
-          "Reqeust Verification"
-        )}
-      </Button>
+      {verification ? (
+        <div className="flex flex-col justify-center items-center">
+          <Success message={verification} />
+          <Link href="/" className="w-full">
+            <Button className="w-full" variant="secondary">
+              Go to Home <Home />
+            </Button>
+          </Link>
+        </div>
+      ) : (
+        <div className="w-full">
+          <UploadDropzone
+            disabled={Boolean(imageUrl)}
+            endpoint="imageUploader"
+            onClientUploadComplete={(res) => {
+              setImageUrl(res[0].ufsUrl);
+              setError("");
+            }}
+            onUploadError={(error) => {
+              console.log(error);
+              setError("Failed to upload image, please try again later");
+              setImageUrl("");
+            }}
+          />
+          <Button
+            variant="secondary"
+            className="w-full my-4"
+            disabled={!imageUrl || mutation.isPending}
+            onClick={handleSubmit}
+          >
+            {mutation.isPending ? (
+              <span className="flex justify-center items-center gap-x-4">
+                <Loader className="animate-spin" />
+                Wait...
+              </span>
+            ) : (
+              "Reqeust Verification"
+            )}
+          </Button>
+        </div>
+      )}
     </section>
   );
 }
