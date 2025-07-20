@@ -19,6 +19,10 @@ export default function VerifyAccount() {
       console.log(response.data);
     },
     onError: (error) => {
+      if (axios.isAxiosError(error)) {
+        console.log(error?.message);
+        setError("Failed to verify your account");
+      }
       console.log(error);
       setError("Failed to verify your account");
     },
@@ -30,9 +34,7 @@ export default function VerifyAccount() {
 
   return (
     <section className="my-6 w-full">
-      {error && (
-        <Error error="Failed to upload image, please try again later" />
-      )}
+      {error && <Error error={error} />}
       <UploadDropzone
         disabled={Boolean(imageUrl)}
         endpoint="imageUploader"
@@ -40,7 +42,9 @@ export default function VerifyAccount() {
           setImageUrl(res[0].ufsUrl);
         }}
         onUploadError={(error) => {
-          setError(error?.message);
+          console.log(error);
+          setError("Failed to upload image, please try again later");
+          setImageUrl("");
         }}
       />
       <Button

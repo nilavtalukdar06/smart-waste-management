@@ -42,7 +42,14 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "user not found" }, { status: 403 });
     }
     const result = await main(body.imageUrl, user.aadhaarNumber);
-    return NextResponse.json(result, { status: 200 });
+    if (!result) {
+      return NextResponse.json(
+        { error: "no results, failed to verify your account" },
+        { status: 403 }
+      );
+    }
+    const cleanedOutput = result.replace(/```json|```/g, "").trim();
+    return NextResponse.json(JSON.parse(cleanedOutput), { status: 200 });
   } catch (error) {
     console.error(error);
     return NextResponse.json(
