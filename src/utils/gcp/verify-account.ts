@@ -1,6 +1,6 @@
 import { GoogleGenAI } from "@google/genai";
 
-async function main(imageUrl: string, aadhaarNumber: number) {
+async function main(imageUrl: string, aadhaarNumber: string) {
   const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
 
   const response = await fetch(imageUrl);
