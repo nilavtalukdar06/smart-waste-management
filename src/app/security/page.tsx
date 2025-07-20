@@ -16,7 +16,12 @@ export default function VerifyAccount() {
       const response = await axios.post("/api/auth/verify-account", {
         imageUrl,
       });
-      console.log(response.data);
+      if (!response.data.isValid) {
+        setError(
+          "The AADHAAR number that you provided during registration is not matching with the number in the actual image of the AADHAAR card that you provided, if you think that is a mistake please take a clear photo of the aadhaar that clearly shows the number in the card and try again, remember this step is important because if you don't verify your account within 7 days, all of your data will get deleted"
+        );
+        setImageUrl("");
+      }
     },
     onError: (error) => {
       if (axios.isAxiosError(error)) {
