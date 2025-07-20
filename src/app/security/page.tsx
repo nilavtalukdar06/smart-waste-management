@@ -24,10 +24,12 @@ export default function VerifyAccount() {
           "The AADHAAR number that you provided during registration is not matching with the number in the actual image of the AADHAAR card that you provided, if you think that is a mistake please take a clear photo of the aadhaar that clearly shows the number in the card and try again, remember this step is important because if you don't verify your account within 7 days, all of your data will get deleted"
         );
         setImageUrl("");
+        return;
       }
       setVerification(
-        "Congrats! you have verified your identity, you will soon recieve an email regarding it"
+        "Congrats! you have verified your identity, you will soon receive an email regarding it"
       );
+      setError("");
     },
     onError: (error) => {
       if (axios.isAxiosError(error)) {
@@ -82,7 +84,7 @@ export default function VerifyAccount() {
                 Wait...
               </span>
             ) : (
-              "Reqeust Verification"
+              "Request Verification"
             )}
           </Button>
         </div>
