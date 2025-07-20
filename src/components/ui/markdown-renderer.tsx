@@ -1,4 +1,3 @@
-//@ts-nocheck
 import React, { Suspense } from "react";
 import Markdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -124,7 +123,7 @@ function childrenTakeAllStringContents(element: any): string {
   }
 
   if (element?.props?.children) {
-    let children = element.props.children;
+    const children = element.props.children;
 
     if (Array.isArray(children)) {
       return children
@@ -147,7 +146,7 @@ const COMPONENTS = {
   strong: withClass("strong", "font-semibold"),
   a: withClass("a", "text-primary underline underline-offset-2"),
   blockquote: withClass("blockquote", "border-l-2 border-primary pl-4"),
-  code: ({ children, className, node, ...rest }: any) => {
+  code: ({ children, className, ...rest }: any) => {
     const match = /language-(\w+)/.exec(className || "");
     return match ? (
       <CodeBlock className={className} language={match[1]} {...rest}>
@@ -186,7 +185,7 @@ const COMPONENTS = {
 };
 
 function withClass(Tag: keyof JSX.IntrinsicElements, classes: string) {
-  const Component = ({ node, ...props }: any) => (
+  const Component = ({ ...props }: any) => (
     <Tag className={classes} {...props} />
   );
   Component.displayName = Tag;
