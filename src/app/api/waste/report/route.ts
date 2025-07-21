@@ -1,5 +1,6 @@
 import connectToMongoDb from "@/db";
 import authOptions from "@/lib/auth";
+import User from "@/models/user.model";
 import Waste from "@/models/waste.model";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
@@ -49,6 +50,7 @@ export async function POST(request: NextRequest) {
     }
     await connectToMongoDb();
     await Waste.create({ ...parsedBody.data, reporter: session?.user?.id });
+    await User.findByIdAndUpdate(session?.user?.id, { $inc: { rewards: 10 } });
     return NextResponse.json(
       { message: "successfully reported waste" },
       { status: 201 }
