@@ -1,3 +1,4 @@
+import ReportWaste from "@/components/dialog/report-waste";
 import authOptions from "@/lib/auth";
 import { TriangleAlert } from "lucide-react";
 import { getServerSession } from "next-auth";
@@ -29,6 +30,9 @@ export default async function Dashboard() {
           </div>
         </div>
       )}
+      <div className="my-4">
+        <ReportWaste />
+      </div>
     </section>
   );
 }
