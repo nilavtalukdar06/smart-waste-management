@@ -48,7 +48,6 @@ const formSchema = z.object({
 export default function ReportWaste() {
   const coordMutation = useGetCoordinates();
   const [wasteReport, setWasteReport] = useState<any>(null);
-  const [imageUrl, setImageUrl] = useState<string>("");
   const [error, setError] = useState<string>("");
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -75,7 +74,11 @@ export default function ReportWaste() {
       const response = await axios.post("/api/waste/report/verify", {
         imageUrl: imageUrl,
       });
-      console.log(response.data);
+      setWasteReport(response.data);
+    },
+    onError: () => {
+      setError("Failed to analyze image, please try again!");
+      setWasteReport(null);
     },
   });
 
@@ -103,13 +106,12 @@ export default function ReportWaste() {
             <div className="grid gap-4 w-full">
               {error && <Error error={error} />}
               {analyzeImage.isPending ? (
-                <div className="flex justify-start mt-4">
+                <div className="flex justify-start my-4">
                   <Loader className="animate-spin text-green-500" />
                 </div>
               ) : !wasteReport ? (
                 <div className="w-full">
                   <UploadDropzone
-                    disabled={Boolean(imageUrl)}
                     endpoint="imageUploader"
                     className="max-[400px]:hidden"
                     onClientUploadComplete={(res) => {
@@ -121,11 +123,10 @@ export default function ReportWaste() {
                       setError(
                         "Failed to upload image, please try again later"
                       );
-                      setImageUrl("");
+                      setWasteReport(null);
                     }}
                   />
                   <UploadButton
-                    disabled={Boolean(imageUrl)}
                     endpoint="imageUploader"
                     className="min-[400px]:hidden"
                     onClientUploadComplete={(res) => {
@@ -137,33 +138,40 @@ export default function ReportWaste() {
                       setError(
                         "Failed to upload image, please try again later"
                       );
-                      setImageUrl("");
+                      setWasteReport(null);
                     }}
                   />
                 </div>
               ) : (
-                <div className="p-4 rounded-lg flex flex-col gap-y-2 justify-center items-start bg-green-50 font-light text-green-600 border border-green-600">
+                <div
+                  className={`p-4 rounded-lg flex flex-col gap-y-2 justify-center items-start font-light border ${wasteReport?.confidenceScore < 50 ? "bg-yellow-50 text-yellow-600 border-yellow-600" : "text-green-600 border-green-600 bg-green-50"}`}
+                >
                   <div className="flex justify-center items-center gap-x-2 mb-4">
-                    <CheckCircle />
+                    {wasteReport?.confidenceScore < 50 ? (
+                      <TriangleAlert />
+                    ) : (
+                      <CheckCircle />
+                    )}
                     <p className="font-medium">Here are the results</p>
                   </div>
                   <p>
-                    <span className="font-medium">Waste Type:</span> E-Waste
+                    <span className="font-medium">Waste Type:</span>{" "}
+                    {wasteReport.type}
                   </p>
                   <p>
-                    <span className="font-medium">Waste Items:</span> Laptop,
-                    Hard-Disk, Mobile, PCB
+                    <span className="font-medium">Waste Items:</span>{" "}
+                    {wasteReport.items}
                   </p>
                   <p>
-                    <span className="font-medium">Estimated Weight:</span> 2.2
-                    Kilograms
+                    <span className="font-medium">Estimated Weight:</span>{" "}
+                    {wasteReport.weight}
                   </p>
                   <p>
-                    <span className="font-medium">Confidence Score:</span> 70%
+                    <span className="font-medium">Confidence Score:</span>{" "}
+                    {wasteReport.confidenceScore}%
                   </p>
                 </div>
               )}
-              {}
               <FormField
                 control={form.control}
                 name="location"
@@ -204,7 +212,11 @@ export default function ReportWaste() {
               <Button
                 type="submit"
                 variant="secondary"
-                disabled={Boolean(!imageUrl)}
+                disabled={
+                  !wasteReport ||
+                  analyzeImage.isPending ||
+                  wasteReport.confidenceScore < 50
+                }
               >
                 Report <Leaf />
               </Button>
