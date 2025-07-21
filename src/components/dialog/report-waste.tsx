@@ -170,6 +170,12 @@ export default function ReportWaste() {
                     <span className="font-medium">Confidence Score:</span>{" "}
                     {wasteReport.confidenceScore}%
                   </p>
+                  <Button
+                    variant="destructive"
+                    onClick={() => setWasteReport(null)}
+                  >
+                    Reset
+                  </Button>
                 </div>
               )}
               <FormField

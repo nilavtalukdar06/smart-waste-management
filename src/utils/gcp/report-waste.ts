@@ -24,6 +24,8 @@ async function report(imageUrl: string) {
         3. An approximate weight in kilograms (as a string, e.g., "1.2 kg")
         4. A confidence score in percentage (from 0 to 100)
 
+        If the image is not related to waste, please put the confidence score as 0 not matter what
+
         Respond ONLY with valid JSON in the following format:
 
         {
