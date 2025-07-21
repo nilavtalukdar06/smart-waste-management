@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { useEffect, useState } from "react";
 import {
+  CheckCircle,
   Leaf,
   Loader,
   MapPinCheck,
@@ -19,7 +20,6 @@ import {
 } from "lucide-react";
 import { UploadButton, UploadDropzone } from "../upload/uploadthing";
 import Error from "../shared/error";
-import Image from "next/image";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -126,44 +126,57 @@ export default function ReportWaste() {
                   />
                 </div>
               ) : (
-                <Image
-                  src={imageUrl}
-                  alt="reported-image"
-                  height={250}
-                  width={500}
-                  className="h-[300px] w-full object-cover rounded-lg"
-                />
+                <div className="p-4 rounded-lg flex flex-col gap-y-2 justify-center items-start bg-green-50 font-light text-green-600 border border-green-600">
+                  <div className="flex justify-center items-center gap-x-2 mb-4">
+                    <CheckCircle />
+                    <p className="font-medium">Here are the results</p>
+                  </div>
+                  <p>
+                    <span className="font-medium">Waste Type:</span> E-Waste
+                  </p>
+                  <p>
+                    <span className="font-medium">Waste Items:</span> Laptop,
+                    Hard-Disk, Mobile, PCB
+                  </p>
+                  <p>
+                    <span className="font-medium">Estimated Weight:</span> 2.2
+                    Kilograms
+                  </p>
+                  <p>
+                    <span className="font-medium">Confidence Score:</span> 70%
+                  </p>
+                </div>
               )}
-              <div className="relative h-fit">
-                <FormField
-                  control={form.control}
-                  name="location"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Enter the waste location</FormLabel>
-                      <FormControl>
+              <FormField
+                control={form.control}
+                name="location"
+                render={({ field }) => (
+                  <FormItem className="w-full h-full">
+                    <FormLabel>Enter the waste location</FormLabel>
+                    <FormControl>
+                      <div className="flex justify-center items-center gap-x-4">
                         <Input placeholder="Enter the location" {...field} />
-                      </FormControl>
-                      <FormDescription>
-                        Please specify the location accurately.
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <button
-                  type="button"
-                  className="absolute z-10 right-2 bottom-[38px] cursor-pointer bg-white"
-                  onClick={getCoordinates}
-                  disabled={coordMutation.isPending}
-                >
-                  {coordMutation.isPending ? (
-                    <Loader className="text-green-500 animate-spin" size={18} />
-                  ) : (
-                    <MapPinCheck size={18} className="text-green-500" />
-                  )}
-                </button>
-              </div>
+                        <Button
+                          type="button"
+                          variant="secondary"
+                          onClick={getCoordinates}
+                          disabled={coordMutation.isPending}
+                        >
+                          {coordMutation.isPending ? (
+                            <Loader className="animate-spin" size={18} />
+                          ) : (
+                            <MapPinCheck size={18} />
+                          )}
+                        </Button>
+                      </div>
+                    </FormControl>
+                    <FormDescription>
+                      Please specify the location accurately.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
             <DialogFooter className="grid grid-cols-1 sm:grid-cols-2 justify-center items-center gap-x-4">
               <DialogClose asChild>
