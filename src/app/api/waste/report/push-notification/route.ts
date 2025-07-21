@@ -1,5 +1,3 @@
-import authOptions from "@/lib/auth";
-import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import Pusher from "pusher";
 import { z } from "zod";
@@ -13,20 +11,14 @@ const pusher = new Pusher({
 });
 
 const bodySchema = z.object({
+  name: z.string().min(2, { message: "name is too short" }),
   location: z.string().min(2, { message: "location is too short" }),
 });
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session) {
-      return NextResponse.json(
-        { error: "user is not authenticated" },
-        { status: 401 }
-      );
-    }
     const body = await request.json();
-    if (!body.location) {
+    if (!body.location || !body.name) {
       return NextResponse.json(
         { error: "location is not sent" },
         { status: 400 }
@@ -37,7 +29,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: parsedBody?.error }, { status: 400 });
     }
     await pusher.trigger("waste-channel", "waste-reported", {
-      message: `Waste reported by ${session.user.name || "someone"} at ${parsedBody.data.location}`,
+      message: `Waste reported by ${parsedBody.data.name || "someone"} at ${parsedBody.data.location}`,
     });
     return NextResponse.json({ message: "sent notification" }, { status: 200 });
   } catch (error) {

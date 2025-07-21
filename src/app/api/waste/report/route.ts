@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
     try {
       await axios.post(
         `${process.env.NEXTAUTH_URL!}/api/waste/report/push-notification`,
-        { location: parsedBody.data.location }
+        { location: parsedBody.data.location, name: session.user.name }
       );
     } catch (error) {
       console.error(error);
