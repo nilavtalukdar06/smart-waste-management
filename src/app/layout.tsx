@@ -27,7 +27,7 @@ export default function RootLayout({
           <main>
             <QueryContext>
               {children}
-              <Toaster />
+              <Toaster position="bottom-right" reverseOrder={false} />
             </QueryContext>
           </main>
         </ProtectedRoutes>
