@@ -17,7 +17,7 @@ export default async function Dashboard() {
       <h2 className="text-2xl sm:text-3xl font-medium text-neutral-600">
         Welcome {firstName}😎
       </h2>
-      {session.user.isVerified && (
+      {!session.user.isVerified && (
         <div className="my-4 p-4 flex justify-start text-sm items-center bg-red-50 rounded-lg gap-x-6 font-light">
           <TriangleAlert className="text-red-500" />
           <div className="text-red-500">
