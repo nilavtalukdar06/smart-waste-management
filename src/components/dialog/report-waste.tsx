@@ -10,7 +10,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useState } from "react";
-import { Leaf, Recycle, TriangleAlert } from "lucide-react";
+import { Leaf, MapPinCheck, Recycle, TriangleAlert } from "lucide-react";
 import { UploadButton, UploadDropzone } from "../upload/uploadthing";
 import Error from "../shared/error";
 import Image from "next/image";
@@ -113,22 +113,30 @@ export default function ReportWaste() {
                   className="h-[300px] w-full object-cover rounded-lg"
                 />
               )}
-              <FormField
-                control={form.control}
-                name="location"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Enter the waste location</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Enter the location" {...field} />
-                    </FormControl>
-                    <FormDescription>
-                      Please specify the location accurately.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <div className="relative h-fit">
+                <FormField
+                  control={form.control}
+                  name="location"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Enter the waste location</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Enter the location" {...field} />
+                      </FormControl>
+                      <FormDescription>
+                        Please specify the location accurately.
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <button
+                  type="button"
+                  className="absolute z-10 right-2 bottom-[38px] cursor-pointer"
+                >
+                  <MapPinCheck size={18} className="text-green-500" />
+                </button>
+              </div>
             </div>
             <DialogFooter className="grid grid-cols-1 sm:grid-cols-2 justify-center items-center gap-x-4">
               <DialogClose asChild>
@@ -136,7 +144,11 @@ export default function ReportWaste() {
                   Cancel <TriangleAlert />
                 </Button>
               </DialogClose>
-              <Button type="submit" variant="secondary">
+              <Button
+                type="submit"
+                variant="secondary"
+                disabled={Boolean(!imageUrl)}
+              >
                 Report <Leaf />
               </Button>
             </DialogFooter>
