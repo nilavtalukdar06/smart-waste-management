@@ -35,6 +35,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
 
 const formSchema = z.object({
   location: z
@@ -45,6 +47,7 @@ const formSchema = z.object({
 
 export default function ReportWaste() {
   const coordMutation = useGetCoordinates();
+  const [wasteReport, setWasteReport] = useState<any>(null);
   const [imageUrl, setImageUrl] = useState<string>("");
   const [error, setError] = useState<string>("");
   const form = useForm<z.infer<typeof formSchema>>({
@@ -66,6 +69,15 @@ export default function ReportWaste() {
   const getCoordinates = () => {
     coordMutation.mutate();
   };
+
+  const analyzeImage = useMutation({
+    mutationFn: async (imageUrl: string) => {
+      const response = await axios.post("/api/waste/report/verify", {
+        imageUrl: imageUrl,
+      });
+      console.log(response.data);
+    },
+  });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     console.log(values);
@@ -90,14 +102,18 @@ export default function ReportWaste() {
             </DialogHeader>
             <div className="grid gap-4 w-full">
               {error && <Error error={error} />}
-              {!imageUrl ? (
+              {analyzeImage.isPending ? (
+                <div className="flex justify-start mt-4">
+                  <Loader className="animate-spin text-green-500" />
+                </div>
+              ) : !wasteReport ? (
                 <div className="w-full">
                   <UploadDropzone
                     disabled={Boolean(imageUrl)}
                     endpoint="imageUploader"
                     className="max-[400px]:hidden"
                     onClientUploadComplete={(res) => {
-                      setImageUrl(res[0].ufsUrl);
+                      analyzeImage.mutate(res[0].ufsUrl);
                       setError("");
                     }}
                     onUploadError={(error) => {
@@ -113,7 +129,7 @@ export default function ReportWaste() {
                     endpoint="imageUploader"
                     className="min-[400px]:hidden"
                     onClientUploadComplete={(res) => {
-                      setImageUrl(res[0].ufsUrl);
+                      analyzeImage.mutate(res[0].ufsUrl);
                       setError("");
                     }}
                     onUploadError={(error) => {
@@ -147,6 +163,7 @@ export default function ReportWaste() {
                   </p>
                 </div>
               )}
+              {}
               <FormField
                 control={form.control}
                 name="location"
