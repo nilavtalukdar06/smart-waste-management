@@ -38,6 +38,13 @@ import {
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 
+interface IWaste {
+  type: string;
+  items: string;
+  weight: string;
+  confidenceScore: number;
+}
+
 const formSchema = z.object({
   location: z
     .string()
@@ -47,7 +54,7 @@ const formSchema = z.object({
 
 export default function ReportWaste() {
   const coordMutation = useGetCoordinates();
-  const [wasteReport, setWasteReport] = useState<any>(null);
+  const [wasteReport, setWasteReport] = useState<null | IWaste>(null);
   const [error, setError] = useState<string>("");
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -63,7 +70,7 @@ export default function ReportWaste() {
         `Latitude: ${coordMutation.data.lat}, Longitude: ${coordMutation.data.long}`
       );
     }
-  }, [coordMutation.data]);
+  }, [coordMutation.data, form]);
 
   const getCoordinates = () => {
     coordMutation.mutate();
@@ -84,6 +91,7 @@ export default function ReportWaste() {
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     console.log(values);
+    setError("");
   };
 
   return (
@@ -115,8 +123,10 @@ export default function ReportWaste() {
                     endpoint="imageUploader"
                     className="max-[400px]:hidden"
                     onClientUploadComplete={(res) => {
-                      analyzeImage.mutate(res[0].ufsUrl);
-                      setError("");
+                      if (res.length > 0) {
+                        analyzeImage.mutate(res[0].ufsUrl);
+                        setError("");
+                      }
                     }}
                     onUploadError={(error) => {
                       console.log(error);
@@ -130,8 +140,10 @@ export default function ReportWaste() {
                     endpoint="imageUploader"
                     className="min-[400px]:hidden"
                     onClientUploadComplete={(res) => {
-                      analyzeImage.mutate(res[0].ufsUrl);
-                      setError("");
+                      if (res.length > 0) {
+                        analyzeImage.mutate(res[0].ufsUrl);
+                        setError("");
+                      }
                     }}
                     onUploadError={(error) => {
                       console.log(error);
@@ -170,6 +182,12 @@ export default function ReportWaste() {
                     <span className="font-medium">Confidence Score:</span>{" "}
                     {wasteReport.confidenceScore}%
                   </p>
+                  {wasteReport.confidenceScore < 50 && (
+                    <p className="text-red-600">
+                      Confidence score below 50% is not accepted, please take a
+                      valid or more clear image
+                    </p>
+                  )}
                   <Button
                     variant="destructive"
                     onClick={() => setWasteReport(null)}
