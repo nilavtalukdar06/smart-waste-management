@@ -37,6 +37,9 @@ import {
 } from "@/components/ui/form";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
+import { toast } from "sonner";
+import useRewards from "@/store/rewards";
+import Success from "../shared/success";
 
 interface IWaste {
   type: string;
@@ -54,7 +57,9 @@ const formSchema = z.object({
 
 export default function ReportWaste() {
   const coordMutation = useGetCoordinates();
+  const [success, setSuccess] = useState<string>("");
   const [wasteReport, setWasteReport] = useState<null | IWaste>(null);
+  const [imageUrl, setImageUrl] = useState<string>("");
   const [error, setError] = useState<string>("");
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -62,6 +67,7 @@ export default function ReportWaste() {
       location: "",
     },
   });
+  const { setRewards } = useRewards();
 
   useEffect(() => {
     if (coordMutation.data) {
@@ -89,8 +95,28 @@ export default function ReportWaste() {
     },
   });
 
+  const handleSubmit = useMutation({
+    mutationFn: async (values: z.infer<typeof formSchema>) => {
+      await axios.post("/api/waste/report", {
+        ...wasteReport,
+        ...values,
+        imageUrl,
+      });
+    },
+    onSuccess: () => {
+      setError("");
+      setSuccess("Congrats, you got 10 points for reporting waste");
+      setRewards(10);
+      setWasteReport(null);
+    },
+    onError: () => {
+      setError("Failed to submit report!");
+    },
+  });
+
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     console.log(values);
+    handleSubmit.mutate(values);
     setError("");
   };
 
@@ -113,6 +139,7 @@ export default function ReportWaste() {
             </DialogHeader>
             <div className="grid gap-4 w-full">
               {error && <Error error={error} />}
+              {success && <Success message={success} />}
               {analyzeImage.isPending ? (
                 <div className="flex justify-start my-4">
                   <Loader className="animate-spin text-green-500" />
@@ -124,8 +151,10 @@ export default function ReportWaste() {
                     className="max-[400px]:hidden"
                     onClientUploadComplete={(res) => {
                       if (res.length > 0) {
+                        setImageUrl(res[0].ufsUrl);
                         analyzeImage.mutate(res[0].ufsUrl);
                         setError("");
+                        setSuccess("");
                       }
                     }}
                     onUploadError={(error) => {
@@ -133,6 +162,7 @@ export default function ReportWaste() {
                       setError(
                         "Failed to upload image, please try again later"
                       );
+                      setSuccess("");
                       setWasteReport(null);
                     }}
                   />
@@ -141,8 +171,10 @@ export default function ReportWaste() {
                     className="min-[400px]:hidden"
                     onClientUploadComplete={(res) => {
                       if (res.length > 0) {
+                        setImageUrl(res[0].ufsUrl);
                         analyzeImage.mutate(res[0].ufsUrl);
                         setError("");
+                        setSuccess("");
                       }
                     }}
                     onUploadError={(error) => {
@@ -150,6 +182,7 @@ export default function ReportWaste() {
                       setError(
                         "Failed to upload image, please try again later"
                       );
+                      setSuccess("");
                       setWasteReport(null);
                     }}
                   />
@@ -190,7 +223,12 @@ export default function ReportWaste() {
                   )}
                   <Button
                     variant="destructive"
-                    onClick={() => setWasteReport(null)}
+                    onClick={() => {
+                      (setWasteReport(null),
+                        setError(""),
+                        setSuccess(""),
+                        setImageUrl(""));
+                    }}
                   >
                     Reset
                   </Button>
@@ -229,7 +267,7 @@ export default function ReportWaste() {
             </div>
             <DialogFooter className="grid grid-cols-1 sm:grid-cols-2 justify-center items-center gap-x-4">
               <DialogClose asChild>
-                <Button variant="destructive" className="">
+                <Button variant="destructive" disabled={handleSubmit.isPending}>
                   Cancel <TriangleAlert />
                 </Button>
               </DialogClose>
@@ -239,10 +277,21 @@ export default function ReportWaste() {
                 disabled={
                   !wasteReport ||
                   analyzeImage.isPending ||
-                  wasteReport.confidenceScore < 50
+                  wasteReport.confidenceScore < 50 ||
+                  handleSubmit.isPending
                 }
               >
-                Report <Leaf />
+                {handleSubmit.isPending ? (
+                  <div className="flex jusitfy-center items-center gap-x-4">
+                    <Loader className="animate-spin" />
+                    <p>Submitting...</p>
+                  </div>
+                ) : (
+                  <div className="flex jusitfy-center items-center gap-x-4">
+                    <p>Report Waste</p>
+                    <Leaf />
+                  </div>
+                )}
               </Button>
             </DialogFooter>
           </form>
