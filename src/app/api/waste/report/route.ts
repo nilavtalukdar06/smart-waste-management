@@ -2,6 +2,7 @@ import connectToMongoDb from "@/db";
 import authOptions from "@/lib/auth";
 import User from "@/models/user.model";
 import Waste from "@/models/waste.model";
+import axios from "axios";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
@@ -51,6 +52,14 @@ export async function POST(request: NextRequest) {
     await connectToMongoDb();
     await Waste.create({ ...parsedBody.data, reporter: session?.user?.id });
     await User.findByIdAndUpdate(session?.user?.id, { $inc: { rewards: 10 } });
+    try {
+      await axios.post(
+        `${process.env.NEXTAUTH_URL!}/api/waste/report/push-notification`,
+        { location: parsedBody.data.location }
+      );
+    } catch (error) {
+      console.error(error);
+    }
     return NextResponse.json(
       { message: "successfully reported waste" },
       { status: 201 }
