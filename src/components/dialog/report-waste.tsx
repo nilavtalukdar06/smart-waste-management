@@ -9,8 +9,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { useState } from "react";
-import { Leaf, MapPinCheck, Recycle, TriangleAlert } from "lucide-react";
+import { useEffect, useState } from "react";
+import {
+  Leaf,
+  Loader,
+  MapPinCheck,
+  Recycle,
+  TriangleAlert,
+} from "lucide-react";
 import { UploadButton, UploadDropzone } from "../upload/uploadthing";
 import Error from "../shared/error";
 import Image from "next/image";
@@ -19,6 +25,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "../ui/input";
+import useGetCoordinates from "@/hooks/use-get-coordinates";
 import {
   Form,
   FormControl,
@@ -37,6 +44,7 @@ const formSchema = z.object({
 });
 
 export default function ReportWaste() {
+  const coordMutation = useGetCoordinates();
   const [imageUrl, setImageUrl] = useState<string>("");
   const [error, setError] = useState<string>("");
   const form = useForm<z.infer<typeof formSchema>>({
@@ -45,6 +53,19 @@ export default function ReportWaste() {
       location: "",
     },
   });
+
+  useEffect(() => {
+    if (coordMutation.data) {
+      form.setValue(
+        "location",
+        `Latitude: ${coordMutation.data.lat}, Longitude: ${coordMutation.data.long}`
+      );
+    }
+  }, [coordMutation.data]);
+
+  const getCoordinates = () => {
+    coordMutation.mutate();
+  };
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     console.log(values);
@@ -132,9 +153,15 @@ export default function ReportWaste() {
                 />
                 <button
                   type="button"
-                  className="absolute z-10 right-2 bottom-[38px] cursor-pointer"
+                  className="absolute z-10 right-2 bottom-[38px] cursor-pointer bg-white"
+                  onClick={getCoordinates}
+                  disabled={coordMutation.isPending}
                 >
-                  <MapPinCheck size={18} className="text-green-500" />
+                  {coordMutation.isPending ? (
+                    <Loader className="text-green-500 animate-spin" size={18} />
+                  ) : (
+                    <MapPinCheck size={18} className="text-green-500" />
+                  )}
                 </button>
               </div>
             </div>
