@@ -20,6 +20,11 @@ export default function VerifyAccount() {
         imageUrl,
       });
       if (!response.data.isValid) {
+        setError("Enter a valid picture of your AADHAAR card");
+        setImageUrl("");
+        return;
+      }
+      if (!response.data.matchesUserInput) {
         setError(
           "The AADHAAR number that you provided during registration is not matching with the number in the actual image of the AADHAAR card that you provided, if you think that is a mistake please take a clear photo of the aadhaar that clearly shows the number in the card and try again, remember this step is important because if you don't verify your account within 7 days, all of your data will get deleted"
         );
@@ -72,6 +77,14 @@ export default function VerifyAccount() {
               setImageUrl("");
             }}
           />
+          <div className="my-4 p-4 bg-blue-50 rounded-lg">
+            <p className="text-sm text-blue-600">
+              Please upload a clear image of your AADHAAR card associated with
+              the AADHAAR number that you provided during registration, ensure
+              that the image is clear and the AADHAAR number can be seen
+              clearly.
+            </p>
+          </div>
           <Button
             variant="secondary"
             className="w-full my-4"

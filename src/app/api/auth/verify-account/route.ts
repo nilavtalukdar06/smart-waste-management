@@ -51,7 +51,8 @@ export async function POST(request: NextRequest) {
     }
     const cleanedOutput = result.replace(/```json|```/g, "").trim();
     const output = JSON.parse(cleanedOutput);
-    if (output.isValid) {
+    console.log(output);
+    if (output.matchesUserInput) {
       await inngest.send({
         name: "user/verified",
         data: {
