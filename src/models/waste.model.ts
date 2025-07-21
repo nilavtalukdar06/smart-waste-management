@@ -39,7 +39,7 @@ const wasteSchema = new mongoose.Schema<IWaste>(
     reporter: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: [true],
+      required: true,
     },
   },
   { timestamps: true }
