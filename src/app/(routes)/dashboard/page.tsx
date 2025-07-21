@@ -20,7 +20,7 @@ export default async function Dashboard() {
       </h2>
       {!session.user.isVerified && (
         <div className="my-4 p-4 flex justify-start text-sm items-center bg-red-50 rounded-lg gap-x-6 font-light">
-          <TriangleAlert className="text-red-500" />
+          <TriangleAlert className="text-red-500 hidden sm:inline-flex" />
           <div className="text-red-500">
             You have not verified your account yet, please click on this link to{" "}
             <Link href="/security" className="underline text-red-700">
