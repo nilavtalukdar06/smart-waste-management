@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -9,11 +10,16 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { useState } from "react";
 import { Leaf, Recycle, TriangleAlert } from "lucide-react";
+import { UploadDropzone } from "../upload/uploadthing";
+import Error from "../shared/error";
+import Image from "next/image";
 
 export default function ReportWaste() {
+  const [imageUrl, setImageUrl] = useState<string>("");
+  const [error, setError] = useState<string>("");
+
   return (
     <Dialog>
       <form>
@@ -22,23 +28,39 @@ export default function ReportWaste() {
             Report Waste <Recycle />
           </Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-[550px]">
           <DialogHeader>
-            <DialogTitle>Edit profile</DialogTitle>
+            <DialogTitle>Report Waste</DialogTitle>
             <DialogDescription>
-              Make changes to your profile here. Click save when you&apos;re
-              done.
+              Upload a picture of the waste in your locality and let AI do the
+              job for you
             </DialogDescription>
           </DialogHeader>
-          <div className="grid gap-4">
-            <div className="grid gap-3">
-              <Label htmlFor="name-1">Name</Label>
-              <Input id="name-1" name="name" defaultValue="Pedro Duarte" />
-            </div>
-            <div className="grid gap-3">
-              <Label htmlFor="username-1">Username</Label>
-              <Input id="username-1" name="username" defaultValue="@peduarte" />
-            </div>
+          <div className="grid">
+            {error && <Error error={error} />}
+            {!imageUrl ? (
+              <UploadDropzone
+                disabled={Boolean(imageUrl)}
+                endpoint="imageUploader"
+                onClientUploadComplete={(res) => {
+                  setImageUrl(res[0].ufsUrl);
+                  setError("");
+                }}
+                onUploadError={(error) => {
+                  console.log(error);
+                  setError("Failed to upload image, please try again later");
+                  setImageUrl("");
+                }}
+              />
+            ) : (
+              <Image
+                src={imageUrl}
+                alt="reported-image"
+                height={250}
+                width={500}
+                className="h-[300px] w-full object-cover rounded-lg"
+              />
+            )}
           </div>
           <DialogFooter>
             <DialogClose asChild>
