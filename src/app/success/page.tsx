@@ -47,7 +47,7 @@ export default function SuccessPage() {
               Your Order Id <ArrowDown size={16} />
             </div>
             <div className="text-green-500 w-fit py-2 px-4 animate-pulse bg-green-50 rounded-lg border border-green-500">
-              abfwuSfuwown23dY
+              {orderId}
             </div>
           </footer>
         )}
