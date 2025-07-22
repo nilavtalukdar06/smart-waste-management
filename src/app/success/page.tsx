@@ -15,7 +15,7 @@ export default function SuccessPage() {
         <div className="my-4 grid grid-cols-1 sm:grid-cols-2 place-items-center w-full h-full gap-6">
           {cardItems.map((item, index) => (
             <Card
-              Icon={item.icon}
+              Icon={item.Icon}
               title={item.title}
               description={item.description}
               key={index + 1}
