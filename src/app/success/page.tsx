@@ -30,7 +30,7 @@ export default function SuccessPage() {
           ))}
         </div>
         <div className="flex flex-wrap justify-center items-center gap-x-6">
-          <Link href="/home">
+          <Link href="/">
             <Button>
               Home <Home />
             </Button>
