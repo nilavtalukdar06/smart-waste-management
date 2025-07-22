@@ -90,7 +90,7 @@ export default function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <Link href="/donate-us" className="w-full">
+        <Link href={process.env.NEXT_PUBLIC_CHECKOUT_LINK!} className="w-full">
           <Button variant="secondary" className="w-full">
             <HandCoins />
             Donate Us
