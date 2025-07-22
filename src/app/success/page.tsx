@@ -1,5 +1,8 @@
 import Card from "@/components/shared/card";
+import { Button } from "@/components/ui/button";
 import { cardItems } from "@/lib/constants";
+import { ArrowDown, Home, Recycle } from "lucide-react";
+import Link from "next/link";
 
 export default function SuccessPage() {
   return (
@@ -22,6 +25,26 @@ export default function SuccessPage() {
             />
           ))}
         </div>
+        <div className="flex flex-wrap justify-center items-center gap-x-6">
+          <Link href="/home">
+            <Button>
+              Home <Home />
+            </Button>
+          </Link>
+          <Link href="/dashboard">
+            <Button variant="secondary">
+              Report Waste <Recycle />
+            </Button>
+          </Link>
+        </div>
+        <footer className="my-6 flex flex-col justify-center items-center gap-2">
+          <div className="flex justify-center items-center gap-x-2 text-neutral-500 mb-2">
+            Your Order Id <ArrowDown size={16} />
+          </div>
+          <div className="text-green-500 w-fit py-2 px-4 animate-pulse bg-green-50 rounded-lg border border-green-500">
+            abfwuSfuwown23dY
+          </div>
+        </footer>
       </div>
     </div>
   );
