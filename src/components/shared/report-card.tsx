@@ -29,7 +29,9 @@ export default function ReportCard({
     <div className="w-full p-4 border rounded-lg flex flex-col gap-y-4 justify-center items-start h-full">
       <div className="flex justify-center items-center gap-x-2">
         <MapPin className="text-green-500" />
-        <Highlight className="text text-neutral-600">{location}</Highlight>
+        <Highlight className="text text-neutral-600" search={searchTerm}>
+          {location}
+        </Highlight>
       </div>
       <p className="text-sm text-neutral-600 font-light">
         <span className="font-normal text-neutral-700">Waste Type:</span>{" "}
