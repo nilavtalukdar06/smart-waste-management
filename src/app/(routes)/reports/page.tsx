@@ -3,7 +3,7 @@ import Error from "@/components/shared/error";
 import ReportCard, { IWaste } from "@/components/shared/report-card";
 import Success from "@/components/shared/success";
 import { Input } from "@/components/ui/input";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { Loader, Search } from "lucide-react";
 import Pusher from "pusher-js";
@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 export default function Reports() {
+  const queryClient = useQueryClient();
   const [searchTerm, setSearchTerm] = useState<string>("");
   useEffect(() => {
     const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY!, {
@@ -18,6 +19,9 @@ export default function Reports() {
     });
     const channel = pusher.subscribe("waste-channel");
     channel.bind("waste-reported", (data: any) => {
+      queryClient.refetchQueries({
+        queryKey: ["reports"],
+      });
       toast(data.message, { icon: "😁" }) || "New waste reported";
     });
 

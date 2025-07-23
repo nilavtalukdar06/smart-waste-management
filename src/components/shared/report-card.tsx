@@ -22,7 +22,7 @@ export default function ReportCard({
   imageUrl,
 }: IWaste) {
   return (
-    <div className="w-full p-4 border rounded-lg flex flex-col gap-y-4 justify-center items-start">
+    <div className="w-full p-4 border rounded-lg flex flex-col gap-y-4 justify-center items-start h-full">
       <div className="flex justify-center items-center gap-x-2">
         <MapPin className="text-green-500" />
         <p className="text text-neutral-600">{location}</p>
