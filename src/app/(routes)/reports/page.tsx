@@ -32,7 +32,7 @@ export default function Reports() {
       channel.unsubscribe();
       pusher.disconnect();
     };
-  }, []);
+  }, [queryClient]);
 
   const { data, isError, isLoading } = useQuery({
     queryKey: ["reports", searchTerm, page],
@@ -45,6 +45,12 @@ export default function Reports() {
   });
   const totalDocuments = data?.totalDocuments || 0;
   const totalPages = Math.ceil(totalDocuments / 6);
+
+  useEffect(() => {
+    if (page > totalPages && totalPages > 0) {
+      setPage(totalPages);
+    }
+  }, [page, totalPages]);
 
   return (
     <section className="p-4">
@@ -95,7 +101,9 @@ export default function Reports() {
             />
           ))}
       </div>
-      <div className="my-4 w-full flex justify-center items-center gap-x-4">
+      <div
+        className={`my-4 w-full ${isLoading || totalPages === 0 ? "hidden" : "flex"} justify-center items-center gap-x-4`}
+      >
         <Button
           onClick={() => setPage((prev) => prev - 1)}
           disabled={page === 1}
