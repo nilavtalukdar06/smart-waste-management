@@ -1,5 +1,6 @@
-import { Camera, MapPin, Recycle, X } from "lucide-react";
+import { MapPin, Recycle, X } from "lucide-react";
 import { Button } from "../ui/button";
+import ViewImage from "../dialog/view-image";
 
 export default function ReportCard() {
   return (
@@ -28,9 +29,7 @@ export default function ReportCard() {
         <p>Not Collected</p>
       </div>
       <div className="flex justify-center items-center gap-x-4">
-        <Button size="sm" variant="secondary">
-          <Camera /> See Image
-        </Button>
+        <ViewImage />
         <Button variant="outline" size="sm" className="text-green-500">
           <Recycle />
           <p>Start Collection</p>
