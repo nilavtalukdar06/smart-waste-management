@@ -1,10 +1,15 @@
 "use client";
+import Error from "@/components/shared/error";
 import ReportCard from "@/components/shared/report-card";
+import Success from "@/components/shared/success";
 import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { Loader, Search } from "lucide-react";
 import Pusher from "pusher-js";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { IWaste } from "../../../../types/schema";
 
 export default function Reports() {
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -24,6 +29,14 @@ export default function Reports() {
     };
   }, []);
 
+  const { data, isError, isLoading } = useQuery({
+    queryKey: ["reports"],
+    queryFn: async () => {
+      const response = await axios.get("/api/waste/report/get-reports");
+      return response.data;
+    },
+  });
+
   return (
     <section className="p-4">
       <h2 className="text-3xl font-medium text-neutral-600">
@@ -40,9 +53,28 @@ export default function Reports() {
           />
         </div>
       </div>
+      {isLoading ? (
+        <div className="flex justify-start items-center gap-x-4">
+          <Loader className="text-green-500 animate-spin" size={32} />
+          <p className="text-lg font-medium text-neutral-600">
+            Fetching Reports...
+          </p>
+        </div>
+      ) : isError ? (
+        <div className="max-w-md">
+          <Error error="Failed to fetch the reports, please try again later" />
+        </div>
+      ) : (
+        <div className="max-w-md">
+          <Success message="Here are all of the recent reports in the descending order" />
+        </div>
+      )}
+
       <div className="my-6 grid grid-cols-1 lg:grid-cols-2 place-items-center w-full gap-6">
-        <ReportCard />
-        <ReportCard />
+        {data &&
+          data.map((item: IWaste) => (
+            <ReportCard key={item?._id?.toString()} />
+          ))}
       </div>
     </section>
   );
