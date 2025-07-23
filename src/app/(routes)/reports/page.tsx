@@ -10,11 +10,22 @@ import { Loader, Search } from "lucide-react";
 import Pusher from "pusher-js";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { useDebounce } from "react-use";
 
 export default function Reports() {
   const queryClient = useQueryClient();
   const [page, setPage] = useState<number>(1);
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const [debouncedValue, setDebouncedValue] = useState<string>("");
+
+  useDebounce(
+    () => {
+      setDebouncedValue(searchTerm);
+    },
+    500,
+    [searchTerm]
+  );
+
   useEffect(() => {
     const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY!, {
       cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER!,
@@ -35,7 +46,7 @@ export default function Reports() {
   }, [queryClient]);
 
   const { data, isError, isLoading } = useQuery({
-    queryKey: ["reports", searchTerm, page],
+    queryKey: ["reports", debouncedValue, page],
     queryFn: async () => {
       const response = await axios.get(
         `/api/waste/report/get-reports?query=${searchTerm}&page=${page}`
@@ -97,7 +108,7 @@ export default function Reports() {
               imageUrl={item.imageUrl}
               createdAt={item.createdAt}
               status={item.status}
-              searchTerm={searchTerm}
+              searchTerm={debouncedValue}
             />
           ))}
       </div>
