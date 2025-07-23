@@ -16,6 +16,7 @@ export async function GET(request: NextRequest) {
     await connectToMongoDb();
     const { searchParams } = request.nextUrl;
     const query = searchParams.get("query")?.trim();
+    const page = parseInt(searchParams.get("page") || "1");
     const filteredQuery = query
       ? {
           $or: [
@@ -27,8 +28,12 @@ export async function GET(request: NextRequest) {
           ],
         }
       : {};
-    const result = await Waste.find(filteredQuery).sort({ createdAt: -1 });
-    return NextResponse.json(result, { status: 200 });
+    const totalDocuments = await Waste.countDocuments(filteredQuery);
+    const result = await Waste.find(filteredQuery)
+      .sort({ createdAt: -1 })
+      .skip((page - 1) * 6)
+      .limit(6);
+    return NextResponse.json({ result, totalDocuments, page }, { status: 200 });
   } catch (error) {
     console.error(error);
     return NextResponse.json(
