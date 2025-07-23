@@ -2,6 +2,7 @@
 import Error from "@/components/shared/error";
 import ReportCard, { IWaste } from "@/components/shared/report-card";
 import Success from "@/components/shared/success";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
@@ -12,6 +13,7 @@ import toast from "react-hot-toast";
 
 export default function Reports() {
   const queryClient = useQueryClient();
+  const [page, setPage] = useState<number>(1);
   const [searchTerm, setSearchTerm] = useState<string>("");
   useEffect(() => {
     const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY!, {
@@ -33,14 +35,16 @@ export default function Reports() {
   }, []);
 
   const { data, isError, isLoading } = useQuery({
-    queryKey: ["reports", searchTerm],
+    queryKey: ["reports", searchTerm, page],
     queryFn: async () => {
       const response = await axios.get(
-        `/api/waste/report/get-reports?query=${searchTerm}`
+        `/api/waste/report/get-reports?query=${searchTerm}&page=${page}`
       );
       return response.data;
     },
   });
+  const totalDocuments = data?.totalDocuments || 0;
+  const totalPages = Math.ceil(totalDocuments / 6);
 
   return (
     <section className="p-4">
@@ -77,7 +81,7 @@ export default function Reports() {
 
       <div className="my-6 grid grid-cols-1 lg:grid-cols-2 place-items-center w-full gap-6">
         {data &&
-          data.map((item: IWaste, index: number) => (
+          data.result.map((item: IWaste, index: number) => (
             <ReportCard
               key={index}
               location={item.location}
@@ -90,6 +94,23 @@ export default function Reports() {
               searchTerm={searchTerm}
             />
           ))}
+      </div>
+      <div className="my-4 w-full flex justify-center items-center gap-x-4">
+        <Button
+          onClick={() => setPage((prev) => prev - 1)}
+          disabled={page === 1}
+        >
+          Previous
+        </Button>
+        <p className="text-lg font-medium text-neutral-600">
+          {page} of {totalPages}
+        </p>
+        <Button
+          onClick={() => setPage((prev) => prev + 1)}
+          disabled={page === totalPages}
+        >
+          Next
+        </Button>
       </div>
     </section>
   );
