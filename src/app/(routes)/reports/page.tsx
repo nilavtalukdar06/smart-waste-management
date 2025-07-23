@@ -1,6 +1,6 @@
 "use client";
 import Error from "@/components/shared/error";
-import ReportCard from "@/components/shared/report-card";
+import ReportCard, { IWaste } from "@/components/shared/report-card";
 import Success from "@/components/shared/success";
 import { Input } from "@/components/ui/input";
 import { useQuery } from "@tanstack/react-query";
@@ -9,7 +9,6 @@ import { Loader, Search } from "lucide-react";
 import Pusher from "pusher-js";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { IWaste } from "../../../../types/schema";
 
 export default function Reports() {
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -72,8 +71,17 @@ export default function Reports() {
 
       <div className="my-6 grid grid-cols-1 lg:grid-cols-2 place-items-center w-full gap-6">
         {data &&
-          data.map((item: IWaste) => (
-            <ReportCard key={item?._id?.toString()} />
+          data.map((item: IWaste, index: number) => (
+            <ReportCard
+              key={index}
+              location={item.location}
+              type={item.type}
+              items={item.items}
+              weight={item.weight}
+              imageUrl={item.imageUrl}
+              createdAt={item.createdAt}
+              status={item.status}
+            />
           ))}
       </div>
     </section>

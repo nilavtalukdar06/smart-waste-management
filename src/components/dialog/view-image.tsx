@@ -9,7 +9,7 @@ import Image from "next/image";
 import { Button } from "../ui/button";
 import { Camera } from "lucide-react";
 
-export default function ViewImage() {
+export default function ViewImage({ imageUrl }: { imageUrl: string }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -23,7 +23,7 @@ export default function ViewImage() {
         </DialogHeader>
         <Image
           className="rounded-lg"
-          src="/reference-image.jpg"
+          src={imageUrl}
           alt="reported waste image"
           height={250}
           width={550}
