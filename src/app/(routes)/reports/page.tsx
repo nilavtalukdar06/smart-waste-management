@@ -33,9 +33,11 @@ export default function Reports() {
   }, []);
 
   const { data, isError, isLoading } = useQuery({
-    queryKey: ["reports"],
+    queryKey: ["reports", searchTerm],
     queryFn: async () => {
-      const response = await axios.get("/api/waste/report/get-reports");
+      const response = await axios.get(
+        `/api/waste/report/get-reports?query=${searchTerm}`
+      );
       return response.data;
     },
   });
