@@ -87,6 +87,7 @@ export default function Reports() {
               imageUrl={item.imageUrl}
               createdAt={item.createdAt}
               status={item.status}
+              searchTerm={searchTerm}
             />
           ))}
       </div>
