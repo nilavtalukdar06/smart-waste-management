@@ -13,6 +13,7 @@ export async function GET(request: NextRequest) {
         { status: 401 }
       );
     }
+    await connectToMongoDb();
     const { searchParams } = request.nextUrl;
     const query = searchParams.get("query")?.trim();
     const filteredQuery = query
@@ -26,7 +27,6 @@ export async function GET(request: NextRequest) {
           ],
         }
       : {};
-    await connectToMongoDb();
     const result = await Waste.find(filteredQuery).sort({ createdAt: -1 });
     return NextResponse.json(result, { status: 200 });
   } catch (error) {
