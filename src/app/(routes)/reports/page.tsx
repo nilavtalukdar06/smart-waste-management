@@ -1,4 +1,5 @@
 "use client";
+import ReportCard from "@/components/shared/report-card";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import Pusher from "pusher-js";
@@ -38,6 +39,10 @@ export default function Reports() {
             className="border-0 focus:border-0 focus:outline-none focus-visible:ring-0"
           />
         </div>
+      </div>
+      <div className="my-6 grid grid-cols-1 lg:grid-cols-2 place-items-center w-full gap-6">
+        <ReportCard />
+        <ReportCard />
       </div>
     </section>
   );
