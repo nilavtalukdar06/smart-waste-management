@@ -1,13 +1,15 @@
 "use client";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "../ui/button";
-import { CheckCircle, Loader, Recycle } from "lucide-react";
+import { CheckCircle, CircleAlert, Loader, Recycle } from "lucide-react";
 import { useState } from "react";
 import Success from "../shared/success";
 import Error from "../shared/error";
@@ -134,6 +136,20 @@ export default function CollectWaste({
             />
           </div>
         )}
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button
+              variant="destructive"
+              onClick={() => {
+                uploadImageAndVerify.reset();
+                setErrorMessage("");
+                setSuccessMessage("");
+              }}
+            >
+              Abort Veification <CircleAlert />
+            </Button>
+          </DialogClose>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
