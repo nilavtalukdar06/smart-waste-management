@@ -59,7 +59,7 @@ export default function ReportCard({
     },
     onError: (error) => {
       if (axios.isAxiosError(error)) {
-        if (error.status === 403) {
+        if (error.response?.status === 403) {
           toast.error("You cannot collect your own waste");
         } else {
           toast.error("Failed to collect");

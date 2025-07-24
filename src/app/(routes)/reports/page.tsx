@@ -65,7 +65,7 @@ export default function Reports() {
     queryKey: ["reports", debouncedValue, page],
     queryFn: async () => {
       const response = await axios.get(
-        `/api/waste/report/get-reports?query=${searchTerm}&page=${page}`
+        `/api/waste/report/get-reports?query=${debouncedValue}&page=${page}`
       );
       return response.data;
     },
