@@ -138,15 +138,8 @@ export default function CollectWaste({
         )}
         <DialogFooter>
           <DialogClose asChild>
-            <Button
-              variant="destructive"
-              onClick={() => {
-                uploadImageAndVerify.reset();
-                setErrorMessage("");
-                setSuccessMessage("");
-              }}
-            >
-              Abort Veification <CircleAlert />
+            <Button variant="destructive">
+              Cancel <CircleAlert />
             </Button>
           </DialogClose>
         </DialogFooter>
