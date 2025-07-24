@@ -4,6 +4,15 @@ import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
 import { inngest } from "@/lib/inngest";
+import Pusher from "pusher";
+
+const pusher = new Pusher({
+  appId: process.env.PUSHER_APP_ID!,
+  key: process.env.PUSHER_KEY!,
+  secret: process.env.PUSHER_SECRET!,
+  cluster: process.env.PUSHER_CLUSTER!,
+  useTLS: true,
+});
 
 const registrationSchema = z.object({
   name: z.string().min(2, { message: "name is too short" }),
@@ -49,6 +58,9 @@ export async function POST(request: NextRequest) {
         name: user.name,
         email: user.email,
       },
+    });
+    await pusher.trigger("user-channel", "user-registered", {
+      message: `${parsedData.data.name} has just registered to eco-swachh`,
     });
     return NextResponse.json(
       { message: "user registered successfully" },

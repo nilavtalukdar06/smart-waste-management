@@ -6,6 +6,15 @@ import axios from "axios";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
+import Pusher from "pusher";
+
+const pusher = new Pusher({
+  appId: process.env.PUSHER_APP_ID!,
+  key: process.env.PUSHER_KEY!,
+  secret: process.env.PUSHER_SECRET!,
+  cluster: process.env.PUSHER_CLUSTER!,
+  useTLS: true,
+});
 
 const bodySchema = z.object({
   type: z.string().min(2, { message: "waste type is too short" }),
@@ -60,6 +69,9 @@ export async function POST(request: NextRequest) {
     } catch (error) {
       console.error(error);
     }
+    await pusher.trigger("user-channel", "user-reported-waste", {
+      message: `${session.user.name} has just got 10 points for reporting waste`,
+    });
     return NextResponse.json(
       { message: "successfully reported waste" },
       { status: 201 }

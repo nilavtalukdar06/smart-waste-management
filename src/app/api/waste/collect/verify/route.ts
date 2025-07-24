@@ -81,6 +81,9 @@ export async function POST(request: NextRequest) {
     await pusher.trigger("waste-channel", "collected", {
       message: `${session.user.name} has collected waste just now`,
     });
+    await pusher.trigger("user-channel", "user-collected-waste", {
+      message: `${session.user.name} has just got 50 points for collecting waste`,
+    });
     return NextResponse.json(parsedResponse, { status: 200 });
   } catch (error) {
     console.error(error);
