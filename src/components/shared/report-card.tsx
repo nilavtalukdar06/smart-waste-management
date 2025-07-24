@@ -22,6 +22,7 @@ export interface IWaste {
   type: string;
   items: string;
   weight: string;
+  reporter: string;
   createdAt: string | Date;
   status: string;
   imageUrl: string;
@@ -39,6 +40,7 @@ export default function ReportCard({
   searchTerm,
   imageUrl,
   collector,
+  reporter,
   reportId,
 }: IWaste) {
   const queryClient = useQueryClient();
@@ -56,6 +58,13 @@ export default function ReportCard({
       });
     },
     onError: (error) => {
+      if (axios.isAxiosError(error)) {
+        if (error.status === 403) {
+          toast.error("You cannot collect your own waste");
+        } else {
+          toast.error("Failed to collect");
+        }
+      }
       console.log(error.message);
       toast.error("Failed to collect");
     },
@@ -100,23 +109,25 @@ export default function ReportCard({
       </div>
       <div className="flex justify-center items-center gap-x-4">
         <ViewImage imageUrl={imageUrl} />
-        {!collector && userStatus === "authenticated" && (
-          <Button
-            size="sm"
-            variant="outline"
-            className="text-green-500"
-            onClick={() => updateStatus.mutate()}
-            disabled={updateStatus.isPending}
-          >
-            {updateStatus.isPending ? (
-              <Loader className="animate-spin" size={14} />
-            ) : (
-              <span className="flex justify-center items-center gap-x-3">
-                Start Collection <Recycle />
-              </span>
-            )}
-          </Button>
-        )}
+        {!collector &&
+          userStatus === "authenticated" &&
+          reporter !== session.user.id && (
+            <Button
+              size="sm"
+              variant="outline"
+              className="text-green-500"
+              onClick={() => updateStatus.mutate()}
+              disabled={updateStatus.isPending}
+            >
+              {updateStatus.isPending ? (
+                <Loader className="animate-spin" size={14} />
+              ) : (
+                <span className="flex justify-center items-center gap-x-3">
+                  Start Collection <Recycle />
+                </span>
+              )}
+            </Button>
+          )}
         {collector &&
           userStatus === "authenticated" &&
           collector === session.user.id && (

@@ -124,6 +124,7 @@ export default function Reports() {
               imageUrl={item.imageUrl}
               createdAt={item.createdAt || ""}
               status={item.status}
+              reporter={item.reporter.toString() || ""}
               reportId={item?._id?.toString() || ""}
               collector={item.collector?.toString() || ""}
               searchTerm={debouncedValue}
