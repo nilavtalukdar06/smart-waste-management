@@ -81,7 +81,7 @@ export default function CollectWaste({
         ) : uploadImageAndVerify.data?.isValid &&
           uploadImageAndVerify.isSuccess ? (
           <div className="flex flex-col gap-4 items-center justify-center">
-            <div className="bg-green-50 border border-green-500 text-green-500 p-4 rounded-lg">
+            <div className="bg-green-50 text-green-500 p-4 rounded-lg">
               <div className="flex justify-start items-center gap-x-2">
                 <CheckCircle className="text-green-600" size={16} />
                 <p className="font-medium text-green-600">How to dispose it?</p>
@@ -90,7 +90,7 @@ export default function CollectWaste({
                 {uploadImageAndVerify?.data?.disposalMethod}
               </p>
             </div>
-            <div className="bg-red-50 border border-red-500 text-red-500 p-4 rounded-lg">
+            <div className="bg-red-50 text-red-500 p-4 rounded-lg">
               <div className="flex justify-start items-center gap-x-2">
                 <CheckCircle className="text-red-600" size={16} />
                 <p className="font-medium text-red-600">

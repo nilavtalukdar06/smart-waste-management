@@ -6,7 +6,7 @@ export interface ICard {
 
 export default function Card({ Icon, title, description }: ICard) {
   return (
-    <div className="w-full p-5 rounded-lg border-2 border-green-300 bg-green-50 text-green-500 flex flex-col justify-center items-center gap-y-4">
+    <div className="w-full p-5 rounded-lg bg-green-50 text-green-500 flex flex-col justify-center items-center gap-y-4">
       <div className="flex justify-center items-center gap-x-4">
         <Icon />
         <p className="text-xl">{title}</p>

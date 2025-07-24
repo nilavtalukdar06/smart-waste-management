@@ -188,7 +188,7 @@ export default function ReportWaste() {
                 </div>
               ) : (
                 <div
-                  className={`p-4 rounded-lg flex flex-col gap-y-2 justify-center items-start font-light border ${wasteReport?.confidenceScore < 50 ? "bg-yellow-50 text-yellow-600 border-yellow-600" : "text-green-600 border-green-600 bg-green-50"}`}
+                  className={`p-4 rounded-lg flex flex-col gap-y-2 justify-center items-start font-light ${wasteReport?.confidenceScore < 50 ? "bg-yellow-50 text-yellow-600" : "text-green-600 bg-green-50"}`}
                 >
                   <div className="flex justify-center items-center gap-x-2 mb-4">
                     {wasteReport?.confidenceScore < 50 ? (
