@@ -15,15 +15,13 @@ const pusher = new Pusher({
 export const updateUserData = inngest.createFunction(
   { id: "update-user-data" },
   { event: "waste/verified" },
-  async ({ event, step }) => {
-    const { userId, reportId, name } = event.data;
-    await connectToMongoDb();
-
-    await step.run("update-points", async () => {
-      await User.findByIdAndUpdate(userId, { $inc: { rewards: 50 } });
-    });
-
-    await step.run("update-status", async () => {
+  async ({ event }) => {
+    try {
+      const { userId, reportId, name } = event.data;
+      if (!userId || !reportId || !name) {
+        throw new Error("event data is not present");
+      }
+      await connectToMongoDb();
       const result = await Waste.findOneAndUpdate(
         { _id: reportId, status: "pending", collector: userId },
         { $set: { status: "collected" } },
@@ -32,16 +30,18 @@ export const updateUserData = inngest.createFunction(
       if (!result) {
         throw new Error("failed to update status");
       }
-    });
-
-    await step.run("trigger-update", async () => {
+      await User.findByIdAndUpdate(userId, { $inc: { rewards: 50 } });
       await pusher.trigger("waste-channel", "completed", {
         message: `${name} has collected waste just now`,
       });
-    });
-
-    return {
-      success: true,
-    };
+      return {
+        success: true,
+      };
+    } catch (error) {
+      console.error(error);
+      return {
+        error: error instanceof Error ? error?.message : "some error occurred",
+      };
+    }
   }
 );
