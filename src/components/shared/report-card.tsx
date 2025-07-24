@@ -15,6 +15,7 @@ import { useSession } from "next-auth/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import CollectWaste from "../dialog/collect-waste";
 
 export interface IWaste {
   reportId: string;
@@ -130,11 +131,7 @@ export default function ReportCard({
           )}
         {collector &&
           userStatus === "authenticated" &&
-          collector === session.user.id && (
-            <Button size="sm" variant="destructive">
-              Verify Waste <Recycle />
-            </Button>
-          )}
+          collector === session.user.id && <CollectWaste reportId={reportId} />}
       </div>
       {collector &&
         userStatus === "authenticated" &&
