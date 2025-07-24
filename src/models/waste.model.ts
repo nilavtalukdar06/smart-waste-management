@@ -41,6 +41,10 @@ const wasteSchema = new mongoose.Schema<IWaste>(
       ref: "User",
       required: true,
     },
+    collector: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
   },
   { timestamps: true }
 );

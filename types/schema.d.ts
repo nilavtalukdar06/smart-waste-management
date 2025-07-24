@@ -22,15 +22,7 @@ interface IWaste {
   location: string;
   imageUrl: string;
   reporter: mongoose.Schema.Types.ObjectId;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
-
-interface ICollection {
-  _id?: mongoose.Types.ObjectId;
-  imageUrl: string;
-  reportId: mongoose.Schema.Types.ObjectId;
-  collectorId: mongoose.Schema.Types.ObjectId;
+  collector: mongoose.Schema.Types.ObjectId;
   createdAt?: Date;
   updatedAt?: Date;
 }

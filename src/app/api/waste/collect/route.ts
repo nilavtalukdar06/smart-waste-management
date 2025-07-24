@@ -1,6 +1,5 @@
 import authOptions from "@/lib/auth";
 import Waste from "@/models/waste.model";
-import Collection from "@/models/collection.model";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -20,12 +19,27 @@ export async function PATCH(request: NextRequest) {
         { status: 400 }
       );
     }
-    const result = await Waste.findById(reportId);
-    if (!result) {
-      return NextResponse.json({ error: "report not found" }, { status: 403 });
+    const report = await Waste.findById(reportId);
+    if (!report) {
+      return NextResponse.json({ error: "no report found" }, { status: 404 });
     }
-    await Waste.updateOne({ _id: reportId }, { $set: { status: "pending" } });
-    await Collection.create({ reportId, collectorId: session?.user?.id });
+    if (report.reporter.toString() === session.user.id) {
+      return NextResponse.json(
+        { error: "you cannot collect your own waste" },
+        { status: 403 }
+      );
+    }
+    const result = await Waste.findOneAndUpdate(
+      { _id: reportId, status: "not-collected", collector: { $exists: false } },
+      { $set: { status: "pending", collector: session?.user?.id } },
+      { new: true }
+    );
+    if (!result) {
+      return NextResponse.json(
+        { error: "no reports found or waste is already collected" },
+        { status: 403 }
+      );
+    }
     return NextResponse.json({ collectorId: session.user.id }, { status: 200 });
   } catch (error) {
     console.error(error);
