@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import TopPerformers from "@/components/shared/top-performers";
 
 export default function Leaderboard() {
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -19,6 +20,7 @@ export default function Leaderboard() {
           />
         </div>
       </div>
+      <TopPerformers searchTerm={searchTerm} />
     </div>
   );
 }
