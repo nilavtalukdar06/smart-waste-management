@@ -69,27 +69,26 @@ export default function ReportCard({
       </div>
       <div className="flex justify-center items-center gap-x-4">
         <ViewImage imageUrl={imageUrl} />
-        {!collector ? (
-          <Button variant="outline" size="sm" className="text-green-500">
-            <Recycle />
-            <p>Start Collection</p>
+        {!collector && userStatus === "authenticated" && (
+          <Button size="sm" variant="outline" className="text-green-500">
+            Start Collection <Recycle />
           </Button>
-        ) : (
-          session &&
+        )}
+        {collector &&
           userStatus === "authenticated" &&
           collector === session.user.id && (
-            <Button size="sm">Verify Collection</Button>
-          )
-        )}
-        {!collector &&
-          session &&
-          userStatus === "authenticated" &&
-          collector !== session.user.id && (
-            <p className="text-sm text-green-500 font-light text-start">
-              Already in collection by another user
-            </p>
+            <Button size="sm" variant="destructive">
+              Verify Waste <Recycle />
+            </Button>
           )}
       </div>
+      {collector &&
+        userStatus === "authenticated" &&
+        collector !== session.user.id && (
+          <p className="text-sm text-start text-green-500 font-light">
+            Already in collection by another user
+          </p>
+        )}
     </div>
   );
 }
