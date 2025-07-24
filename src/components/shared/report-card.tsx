@@ -1,8 +1,10 @@
+"use client";
 import { CheckCircle, MapPin, Recycle, TriangleAlert, X } from "lucide-react";
 import { Button } from "../ui/button";
 import ViewImage from "../dialog/view-image";
 //@ts-ignore
 import Highlight from "react-highlighter";
+import { useSession } from "next-auth/react";
 
 export interface IWaste {
   location: string;
@@ -13,6 +15,7 @@ export interface IWaste {
   status: string;
   imageUrl: string;
   searchTerm: string;
+  collector: string;
 }
 
 export default function ReportCard({
@@ -24,7 +27,9 @@ export default function ReportCard({
   status,
   searchTerm,
   imageUrl,
+  collector,
 }: IWaste) {
+  const { data: session, status: userStatus } = useSession();
   return (
     <div className="w-full p-4 border rounded-lg flex flex-col gap-y-4 justify-center items-start h-full">
       <div className="flex justify-center items-center gap-x-2">
@@ -64,10 +69,26 @@ export default function ReportCard({
       </div>
       <div className="flex justify-center items-center gap-x-4">
         <ViewImage imageUrl={imageUrl} />
-        <Button variant="outline" size="sm" className="text-green-500">
-          <Recycle />
-          <p>Start Collection</p>
-        </Button>
+        {!collector ? (
+          <Button variant="outline" size="sm" className="text-green-500">
+            <Recycle />
+            <p>Start Collection</p>
+          </Button>
+        ) : (
+          session &&
+          userStatus === "authenticated" &&
+          collector === session.user.id && (
+            <Button size="sm">Verify Collection</Button>
+          )
+        )}
+        {!collector &&
+          session &&
+          userStatus === "authenticated" &&
+          collector !== session.user.id && (
+            <p className="text-sm text-green-500 font-light text-start">
+              Already in collection by another user
+            </p>
+          )}
       </div>
     </div>
   );

@@ -108,6 +108,7 @@ export default function Reports() {
               imageUrl={item.imageUrl}
               createdAt={item.createdAt}
               status={item.status}
+              collector={item.collector?.toString() || ""}
               searchTerm={debouncedValue}
             />
           ))}
