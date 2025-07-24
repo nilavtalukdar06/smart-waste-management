@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
+import { ICollection } from "../../types/schema";
 
-const collectionSchema = new mongoose.Schema({
+const collectionSchema = new mongoose.Schema<ICollection>({
   imageUrl: {
     type: String,
     match: [
@@ -21,6 +22,7 @@ const collectionSchema = new mongoose.Schema({
 });
 
 const Collection =
-  mongoose.models?.Collection || mongoose.model("Collection", collectionSchema);
+  mongoose.models?.Collection ||
+  mongoose.model<ICollection>("Collection", collectionSchema);
 
 export default Collection;

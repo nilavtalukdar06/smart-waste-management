@@ -25,3 +25,12 @@ interface IWaste {
   createdAt?: Date;
   updatedAt?: Date;
 }
+
+interface ICollection {
+  _id?: mongoose.Types.ObjectId;
+  imageUrl: string;
+  reportId: mongoose.Schema.Types.ObjectId;
+  collectorId: mongoose.Schema.Types.ObjectId;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
