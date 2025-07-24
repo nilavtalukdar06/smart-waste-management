@@ -59,6 +59,9 @@ export async function POST(request: NextRequest) {
     }
     const response = result.replace(/```json|```/g, "").trim();
     const parsedResponse = JSON.parse(response);
+    if (!parsedResponse?.isValid) {
+      return NextResponse.json({ error: "not a valid image" }, { status: 403 });
+    }
     const waste = await Waste.findOneAndUpdate(
       {
         _id: parsedBody.data.reportId,
