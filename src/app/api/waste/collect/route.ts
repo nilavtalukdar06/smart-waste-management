@@ -2,6 +2,15 @@ import authOptions from "@/lib/auth";
 import Waste from "@/models/waste.model";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
+import Pusher from "pusher";
+
+const pusher = new Pusher({
+  appId: process.env.PUSHER_APP_ID!,
+  key: process.env.PUSHER_KEY!,
+  secret: process.env.PUSHER_SECRET!,
+  cluster: process.env.PUSHER_CLUSTER!,
+  useTLS: true,
+});
 
 export async function PATCH(request: NextRequest) {
   try {
@@ -40,6 +49,9 @@ export async function PATCH(request: NextRequest) {
         { status: 403 }
       );
     }
+    await pusher.trigger("waste-channel", "waste-updated", {
+      message: `${session.user.name} started collection of waste`,
+    });
     return NextResponse.json({ collectorId: session.user.id }, { status: 200 });
   } catch (error) {
     console.error(error);
