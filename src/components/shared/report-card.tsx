@@ -14,7 +14,7 @@ import Highlight from "react-highlighter";
 import { useSession } from "next-auth/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { toast } from "sonner";
+import { toast } from "react-hot-toast";
 
 export interface IWaste {
   reportId: string;
