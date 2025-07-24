@@ -1,9 +1,18 @@
 import connectToMongoDb from "@/db";
+import authOptions from "@/lib/auth";
 import User from "@/models/user.model";
+import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   try {
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json(
+        { error: "user is not authenticated" },
+        { status: 401 }
+      );
+    }
     await connectToMongoDb();
     const { searchParams } = request.nextUrl;
     const query = searchParams.get("query")?.trim();
