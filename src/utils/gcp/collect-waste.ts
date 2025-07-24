@@ -47,10 +47,10 @@ async function collect(reportedImageUrl: string, collectedImageUrl: string) {
                     
             ### Response Rules:
                     
-            1. If the images are similar, respond with:
+            1. If the images or type of waste in both the images are similar eg: both images contain e-waste, respond with:
             {"isValid": true, "disposalMethod": "<Write a proper and responsible method to dispose of the waste in 30-40 words>",                   "howNottoDispose": "<Mention incorrect or harmful ways people may dispose of this waste, in 30-40 words>"}
                     
-            2. If the images are not similar, respond with:
+            2. If the images or type of waste in both the images are not similar, respond with:
             {"isValid": false}
                     
             ### Very Important:
