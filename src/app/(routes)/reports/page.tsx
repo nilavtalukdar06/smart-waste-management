@@ -54,6 +54,17 @@ export default function Reports() {
       }
     });
 
+    channel.bind("collected", (data: any) => {
+      queryClient.refetchQueries({
+        queryKey: ["reports"],
+      });
+      if (data?.message) {
+        toast(data.message, { icon: "👏" });
+      } else {
+        toast("Someone has collected waste just now", { icon: "👏" });
+      }
+    });
+
     return function () {
       channel.unbind_all();
       channel.unsubscribe();
