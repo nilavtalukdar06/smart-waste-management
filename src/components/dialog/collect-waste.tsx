@@ -12,7 +12,7 @@ import { useState } from "react";
 import Success from "../shared/success";
 import Error from "../shared/error";
 import { UploadButton, UploadDropzone } from "../upload/uploadthing";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import useRewards from "@/store/rewards";
 
@@ -24,6 +24,7 @@ export default function CollectWaste({
   reportedImageUrl: string;
 }) {
   const { setRewards } = useRewards();
+  const queryClient = useQueryClient();
   const [successMessage, setSuccessMessage] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
 
@@ -45,6 +46,9 @@ export default function CollectWaste({
       } else {
         setErrorMessage("The image is not a valid, please take a clear image");
       }
+      queryClient.invalidateQueries({
+        queryKey: ["reports"],
+      });
     },
     onError: (error) => {
       console.log(error?.message);
