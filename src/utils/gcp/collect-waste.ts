@@ -47,15 +47,14 @@ async function collect(reportedImageUrl: string, collectedImageUrl: string) {
                     
             ### Response Rules:
                     
-            1. If confidence score is **above 65%**, respond with:
+            1. If the images are similar, respond with:
             {"isValid": true, "disposalMethod": "<Write a proper and responsible method to dispose of the waste in 30-40 words>",                   "howNottoDispose": "<Mention incorrect or harmful ways people may dispose of this waste, in 30-40 words>"}
                     
-            2. If confidence is **65% or lower**, respond with:
+            2. If the images are not similar, respond with:
             {"isValid": false}
                     
             ### Very Important:
-            - Only respond with **valid JSON**. No explanations or additional comments.
-            - Ensure the JSON is minified (no indentation or line breaks).
+            - Only respond with JSON. No explanations or additional comments.
             - Tailor the disposal advice based on the type of waste visible in the images (e.g., plastic, e-waste, organic, etc.).
                     
             Ready? Analyze the two images and return the response.`,
