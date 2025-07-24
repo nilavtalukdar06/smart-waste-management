@@ -12,11 +12,28 @@ import { useState } from "react";
 import Success from "../shared/success";
 import Error from "../shared/error";
 import { UploadButton, UploadDropzone } from "../upload/uploadthing";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
 
-export default function CollectWaste({ reportId }: { reportId: string }) {
+export default function CollectWaste({
+  reportId,
+  reportedImageUrl,
+}: {
+  reportId: string;
+  reportedImageUrl: string;
+}) {
   const [successMessage, setSuccessMessage] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
-  console.log(reportId);
+
+  const uploadImageAndVerify = useMutation({
+    mutationFn: async (collectedImageUrl: string) => {
+      const response = await axios.post("/api/waste/collect/verify", {
+        reportId: reportId,
+        collectedImageUrl: collectedImageUrl,
+        reportedImageUrl: reportedImageUrl,
+      });
+    },
+  });
 
   return (
     <Dialog>

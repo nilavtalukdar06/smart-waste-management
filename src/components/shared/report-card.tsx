@@ -131,7 +131,9 @@ export default function ReportCard({
           )}
         {collector &&
           userStatus === "authenticated" &&
-          collector === session.user.id && <CollectWaste reportId={reportId} />}
+          collector === session.user.id && (
+            <CollectWaste reportId={reportId} reportedImageUrl={imageUrl} />
+          )}
       </div>
       {collector &&
         userStatus === "authenticated" &&
