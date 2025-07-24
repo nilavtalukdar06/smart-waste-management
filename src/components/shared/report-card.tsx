@@ -46,6 +46,7 @@ export default function ReportCard({
 }: IWaste) {
   const queryClient = useQueryClient();
   const { data: session, status: userStatus } = useSession();
+
   const updateStatus = useMutation({
     mutationFn: async () => {
       const response = await axios.patch("/api/waste/collect", {
@@ -131,15 +132,25 @@ export default function ReportCard({
           )}
         {collector &&
           userStatus === "authenticated" &&
-          collector === session.user.id && (
+          collector === session.user.id &&
+          status === "pending" && (
             <CollectWaste reportId={reportId} reportedImageUrl={imageUrl} />
           )}
       </div>
       {collector &&
         userStatus === "authenticated" &&
-        collector !== session.user.id && (
+        collector !== session.user.id &&
+        status === "pending" && (
           <p className="text-sm text-start text-green-500 font-light">
             Already in collection by another user
+          </p>
+        )}
+      {collector &&
+        userStatus === "authenticated" &&
+        collector !== session.user.id &&
+        status === "collected" && (
+          <p className="text-sm text-start text-green-500 font-light">
+            Waste is collected by other user
           </p>
         )}
     </div>
