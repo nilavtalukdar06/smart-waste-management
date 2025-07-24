@@ -1,6 +1,6 @@
 "use client";
 import Error from "@/components/shared/error";
-import ReportCard, { IWaste } from "@/components/shared/report-card";
+import ReportCard from "@/components/shared/report-card";
 import Success from "@/components/shared/success";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,6 +11,7 @@ import Pusher from "pusher-js";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useDebounce } from "react-use";
+import { IWaste } from "../../../../types/schema";
 
 export default function Reports() {
   const queryClient = useQueryClient();
@@ -106,8 +107,9 @@ export default function Reports() {
               items={item.items}
               weight={item.weight}
               imageUrl={item.imageUrl}
-              createdAt={item.createdAt}
+              createdAt={item.createdAt || ""}
               status={item.status}
+              reportId={item?._id?.toString() || ""}
               collector={item.collector?.toString() || ""}
               searchTerm={debouncedValue}
             />

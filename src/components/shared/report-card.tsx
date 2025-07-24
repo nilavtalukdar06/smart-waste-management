@@ -1,17 +1,28 @@
 "use client";
-import { CheckCircle, MapPin, Recycle, TriangleAlert, X } from "lucide-react";
+import {
+  CheckCircle,
+  Loader,
+  MapPin,
+  Recycle,
+  TriangleAlert,
+  X,
+} from "lucide-react";
 import { Button } from "../ui/button";
 import ViewImage from "../dialog/view-image";
 //@ts-ignore
 import Highlight from "react-highlighter";
 import { useSession } from "next-auth/react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
+import { toast } from "sonner";
 
 export interface IWaste {
+  reportId: string;
   location: string;
   type: string;
   items: string;
   weight: string;
-  createdAt: string;
+  createdAt: string | Date;
   status: string;
   imageUrl: string;
   searchTerm: string;
@@ -28,8 +39,28 @@ export default function ReportCard({
   searchTerm,
   imageUrl,
   collector,
+  reportId,
 }: IWaste) {
+  const queryClient = useQueryClient();
   const { data: session, status: userStatus } = useSession();
+  const updateStatus = useMutation({
+    mutationFn: async () => {
+      const response = await axios.patch("/api/waste/collect", {
+        reportId: reportId,
+      });
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["reports"],
+      });
+    },
+    onError: (error) => {
+      console.log(error.message);
+      toast.error("Failed to collect");
+    },
+  });
+
   return (
     <div className="w-full p-4 border rounded-lg flex flex-col gap-y-4 justify-center items-start h-full">
       <div className="flex justify-center items-center gap-x-2">
@@ -70,8 +101,20 @@ export default function ReportCard({
       <div className="flex justify-center items-center gap-x-4">
         <ViewImage imageUrl={imageUrl} />
         {!collector && userStatus === "authenticated" && (
-          <Button size="sm" variant="outline" className="text-green-500">
-            Start Collection <Recycle />
+          <Button
+            size="sm"
+            variant="outline"
+            className="text-green-500"
+            onClick={() => updateStatus.mutate()}
+            disabled={updateStatus.isPending}
+          >
+            {updateStatus.isPending ? (
+              <Loader className="animate-spin" size={14} />
+            ) : (
+              <span className="flex justify-center items-center gap-x-3">
+                Start Collection <Recycle />
+              </span>
+            )}
           </Button>
         )}
         {collector &&
