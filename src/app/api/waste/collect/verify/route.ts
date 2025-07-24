@@ -1,9 +1,19 @@
 import authOptions from "@/lib/auth";
-import { inngest } from "@/lib/inngest";
+import User from "@/models/user.model";
+import Waste from "@/models/waste.model";
 import collect from "@/utils/gcp/collect-waste";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
+import Pusher from "pusher";
+
+const pusher = new Pusher({
+  appId: process.env.PUSHER_APP_ID!,
+  key: process.env.PUSHER_KEY!,
+  secret: process.env.PUSHER_SECRET!,
+  cluster: process.env.PUSHER_CLUSTER!,
+  useTLS: true,
+});
 
 const requestSchema = z.object({
   reportedImageUrl: z
@@ -49,16 +59,25 @@ export async function POST(request: NextRequest) {
     }
     const response = result.replace(/```json|```/g, "").trim();
     const parsedResponse = JSON.parse(response);
-    if (parsedResponse?.isValid) {
-      await inngest.send({
-        name: "waste/verified",
-        data: {
-          userId: session.user.id,
-          name: session.user.name,
-          reportId: parsedBody.data.reportId,
-        },
-      });
+    const waste = await Waste.findOneAndUpdate(
+      {
+        _id: parsedBody.data.reportId,
+        status: "pending",
+        collector: session.user.id,
+      },
+      { $set: { status: "collected" } },
+      { new: true }
+    );
+    if (!waste) {
+      return NextResponse.json(
+        { error: "report is not present" },
+        { status: 404 }
+      );
     }
+    await User.findByIdAndUpdate(session.user.id, { $inc: { rewards: 50 } });
+    await pusher.trigger("waste-channel", "collected", {
+      message: `${session.user.name} has collected waste just now`,
+    });
     return NextResponse.json(parsedResponse, { status: 200 });
   } catch (error) {
     console.error(error);
