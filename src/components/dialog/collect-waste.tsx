@@ -11,7 +11,7 @@ import { Recycle } from "lucide-react";
 import { useState } from "react";
 import Success from "../shared/success";
 import Error from "../shared/error";
-import { UploadDropzone } from "../upload/uploadthing";
+import { UploadButton, UploadDropzone } from "../upload/uploadthing";
 
 export default function CollectWaste({ reportId }: { reportId: string }) {
   const [successMessage, setSuccessMessage] = useState<string>("");
@@ -31,16 +31,34 @@ export default function CollectWaste({ reportId }: { reportId: string }) {
         </DialogHeader>
         <div>
           {successMessage && <Success message={successMessage} />}
-          {errorMessage && <Error error={successMessage} />}
+          {errorMessage && <Error error={errorMessage} />}
         </div>
-        <UploadDropzone
-          endpoint="imageUploader"
-          onClientUploadComplete={(res) => console.log(res[0].ufsUrl)}
-          onUploadError={(error) => {
-            (console.log(error),
-              setErrorMessage("Failed to upload image, please try again"));
-          }}
-        />
+        <div>
+          <UploadDropzone
+            endpoint="imageUploader"
+            className="hidden sm:flex"
+            onClientUploadComplete={(res) => {
+              console.log(res[0].ufsUrl);
+              setErrorMessage("");
+            }}
+            onUploadError={(error) => {
+              (console.log(error),
+                setErrorMessage("Failed to upload image, please try again"));
+            }}
+          />
+          <UploadButton
+            endpoint="imageUploader"
+            className="sm:hidden"
+            onClientUploadComplete={(res) => {
+              console.log(res[0].ufsUrl);
+              setErrorMessage("");
+            }}
+            onUploadError={(error) => {
+              (console.log(error),
+                setErrorMessage("Failed to upload image, please try again"));
+            }}
+          />
+        </div>
       </DialogContent>
     </Dialog>
   );
