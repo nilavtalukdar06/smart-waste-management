@@ -36,7 +36,22 @@ export default function Reports() {
       queryClient.refetchQueries({
         queryKey: ["reports"],
       });
-      toast(data.message, { icon: "😁" }) || "New waste reported";
+      if (data?.message) {
+        toast(data.message, { icon: "😁" });
+      } else {
+        toast("New waste reported", { icon: "😁" });
+      }
+    });
+
+    channel.bind("waste-updated", (data: any) => {
+      queryClient.refetchQueries({
+        queryKey: ["reports"],
+      });
+      if (data?.message) {
+        toast(data.message, { icon: "😎" });
+      } else {
+        toast("Someone started collecting waste", { icon: "😎" });
+      }
     });
 
     return function () {
