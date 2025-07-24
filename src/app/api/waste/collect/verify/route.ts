@@ -1,4 +1,6 @@
+import authOptions from "@/lib/auth";
 import collect from "@/utils/gcp/collect-waste";
+import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
@@ -21,6 +23,13 @@ const requestSchema = z.object({
 
 export async function POST(request: NextRequest) {
   try {
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json(
+        { error: "user is not authenticated" },
+        { status: 401 }
+      );
+    }
     const body = await request.json();
     const parsedBody = requestSchema.safeParse(body);
     if (!parsedBody.success) {
@@ -33,7 +42,9 @@ export async function POST(request: NextRequest) {
     if (!result) {
       return NextResponse.json({ error: "failed to verify" }, { status: 404 });
     }
-    return NextResponse.json(result, { status: 200 });
+    const response = result.replace(/```json|```/g, "").trim();
+    const parsedResponse = JSON.parse(response);
+    return NextResponse.json(parsedResponse, { status: 200 });
   } catch (error) {
     console.error(error);
     return NextResponse.json(
