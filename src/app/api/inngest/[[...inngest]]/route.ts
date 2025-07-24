@@ -4,8 +4,15 @@ import { deleteUnverifiedUser } from "@/app/api/inngest/functions/delete-unverif
 import { sendSuccessEmail } from "../functions/send-success-email";
 import { sendEmail } from "../functions/send-email";
 import { updateUser } from "../functions/update-user";
+import { updateUserData } from "../functions/update-user-data";
 
 export const { GET, POST, PUT } = serve({
   client: inngest,
-  functions: [sendEmail, deleteUnverifiedUser, sendSuccessEmail, updateUser],
+  functions: [
+    sendEmail,
+    deleteUnverifiedUser,
+    sendSuccessEmail,
+    updateUser,
+    updateUserData,
+  ],
 });
