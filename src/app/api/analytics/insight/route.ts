@@ -2,6 +2,7 @@ import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import authOptions from "@/lib/auth";
 import Waste from "@/models/waste.model";
+import mongoose from "mongoose";
 import User from "@/models/user.model";
 import generateInsight from "@/utils/vercel/generate-insight";
 
@@ -25,13 +26,18 @@ export async function GET() {
     const rank =
       users.findIndex((user) => user._id.toString() === session.user.id) + 1;
     const mostReportedType = await Waste.aggregate([
-      { $match: { reporter: session?.user?.id } },
+      { $match: { reporter: new mongoose.Types.ObjectId(session?.user?.id) } },
       { $group: { _id: "$type", count: { $sum: 1 } } },
       { $sort: { count: -1 } },
       { $limit: 1 },
     ]);
     const mostCollectedType = await Waste.aggregate([
-      { $match: { collector: session.user.id, status: "collected" } },
+      {
+        $match: {
+          collector: new mongoose.Types.ObjectId(session?.user?.id),
+          status: "collected",
+        },
+      },
       { $group: { _id: "$type", count: { $sum: 1 } } },
       { $sort: { count: -1 } },
       { $limit: 1 },
@@ -50,7 +56,7 @@ export async function GET() {
         { status: 404 }
       );
     } else {
-      return NextResponse.json(result, { status: 201 });
+      return NextResponse.json(result, { status: 200 });
     }
   } catch (error) {
     console.error(error);

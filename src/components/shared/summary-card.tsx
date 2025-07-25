@@ -10,7 +10,6 @@ export default function SummaryCard() {
     queryKey: ["summary"],
     queryFn: async () => {
       const response = await axios.get("/api/analytics/summary");
-      console.log(response.data);
       return response.data;
     },
   });
