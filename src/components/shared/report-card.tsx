@@ -16,6 +16,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import CollectWaste from "../dialog/collect-waste";
+import DisposalMethod from "../dialog/disposal-method";
 
 export interface IWaste {
   reportId: string;
@@ -135,6 +136,12 @@ export default function ReportCard({
           collector === session.user.id &&
           status === "pending" && (
             <CollectWaste reportId={reportId} reportedImageUrl={imageUrl} />
+          )}
+        {collector &&
+          userStatus === "authenticated" &&
+          collector === session.user.id &&
+          status === "collected" && (
+            <DisposalMethod reportId={reportId} />
           )}
       </div>
       {collector &&

@@ -12,7 +12,7 @@ import {
 import { Button } from "../ui/button";
 import { AlertCircle, Recycle } from "lucide-react";
 
-export default function DisposalMethod() {
+export default function DisposalMethod({ reportId }: { reportId: string }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
