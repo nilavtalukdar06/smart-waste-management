@@ -9,14 +9,14 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "../ui/button";
-import { CheckCircle, CircleAlert, Loader, Recycle } from "lucide-react";
+import { CircleAlert, Loader, Recycle } from "lucide-react";
 import { useState } from "react";
-import Success from "../shared/success";
 import Error from "../shared/error";
 import { UploadButton, UploadDropzone } from "../upload/uploadthing";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import useRewards from "@/store/rewards";
+import toast from "react-hot-toast";
 
 export default function CollectWaste({
   reportId,
@@ -27,7 +27,6 @@ export default function CollectWaste({
 }) {
   const { setRewards } = useRewards();
   const queryClient = useQueryClient();
-  const [successMessage, setSuccessMessage] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   const uploadImageAndVerify = useMutation({
@@ -42,9 +41,7 @@ export default function CollectWaste({
     onSuccess: (data: any) => {
       if (data?.isValid) {
         setRewards(50);
-        setSuccessMessage(
-          "Congrats!, You earned 50 points for collecting waste"
-        );
+        toast.success("Congrats! You got 50 points for collecting waste");
       } else {
         setErrorMessage("The image is not a valid, please take a clear image");
       }
@@ -53,7 +50,7 @@ export default function CollectWaste({
       });
     },
     onError: (error) => {
-      console.log(error?.message);
+      console.log(error);
       setErrorMessage("Failed to verify");
     },
   });
@@ -69,40 +66,13 @@ export default function CollectWaste({
         <DialogHeader>
           <DialogTitle>Upload the image of the collected waste</DialogTitle>
         </DialogHeader>
-        <div>
-          {successMessage && <Success message={successMessage} />}
-          {errorMessage && <Error error={errorMessage} />}
-        </div>
+        <div>{errorMessage && <Error error={errorMessage} />}</div>
         {uploadImageAndVerify.isPending ? (
           <div className="flex justify-center items-center gap-x-4">
             <Loader className="text-green-500 animate-spin" size={24} />
             <p className="text-lg font-medium text-neutral-600">
               Verifying Image...
             </p>
-          </div>
-        ) : uploadImageAndVerify.data?.isValid &&
-          uploadImageAndVerify.isSuccess ? (
-          <div className="flex flex-col gap-4 items-center justify-center">
-            <div className="bg-green-50 text-green-500 p-4 rounded-lg">
-              <div className="flex justify-start items-center gap-x-2">
-                <CheckCircle className="text-green-600" size={16} />
-                <p className="font-medium text-green-600">How to dispose it?</p>
-              </div>
-              <p className="text-sm font-light mt-4">
-                {uploadImageAndVerify?.data?.disposalMethod}
-              </p>
-            </div>
-            <div className="bg-red-50 text-red-500 p-4 rounded-lg">
-              <div className="flex justify-start items-center gap-x-2">
-                <CheckCircle className="text-red-600" size={16} />
-                <p className="font-medium text-red-600">
-                  How not to dispose it?
-                </p>
-              </div>
-              <p className="text-sm font-light mt-2">
-                {uploadImageAndVerify.data?.howNottoDispose}
-              </p>
-            </div>
           </div>
         ) : (
           <div>
@@ -112,11 +82,9 @@ export default function CollectWaste({
               onClientUploadComplete={(res) => {
                 uploadImageAndVerify.mutate(res[0].ufsUrl);
                 setErrorMessage("");
-                setSuccessMessage("");
               }}
               onUploadError={(error) => {
                 (console.log(error),
-                  setSuccessMessage(""),
                   setErrorMessage("Failed to upload image, please try again"));
               }}
             />
@@ -126,11 +94,9 @@ export default function CollectWaste({
               onClientUploadComplete={(res) => {
                 uploadImageAndVerify.mutate(res[0].ufsUrl);
                 setErrorMessage("");
-                setSuccessMessage("");
               }}
               onUploadError={(error) => {
                 (console.log(error),
-                  setSuccessMessage(""),
                   setErrorMessage("Failed to upload image, please try again"));
               }}
             />
