@@ -1,6 +1,7 @@
 import GetInsight from "@/components/context/get-insight";
 import ReportWaste from "@/components/dialog/report-waste";
 import Insight from "@/components/shared/insight";
+import MainChart from "@/components/shared/main-chart";
 import SummaryCard from "@/components/shared/summary-card";
 import authOptions from "@/lib/auth";
 import { TriangleAlert } from "lucide-react";
@@ -39,6 +40,7 @@ export default async function Dashboard() {
         <GetInsight>
           <Insight />
         </GetInsight>
+        <MainChart />
       </div>
     </section>
   );
