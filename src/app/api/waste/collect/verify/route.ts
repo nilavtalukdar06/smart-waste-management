@@ -6,6 +6,7 @@ import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import Pusher from "pusher";
+import axios from "axios";
 
 const pusher = new Pusher({
   appId: process.env.PUSHER_APP_ID!,
@@ -46,7 +47,7 @@ export async function POST(request: NextRequest) {
     const parsedBody = requestSchema.safeParse(body);
     if (!parsedBody.success) {
       return NextResponse.json(
-        { error: "invalid data format" },
+        { error: parsedBody.error.format() },
         { status: 400 }
       );
     }
@@ -78,6 +79,16 @@ export async function POST(request: NextRequest) {
       );
     }
     await User.findByIdAndUpdate(session.user.id, { $inc: { rewards: 50 } });
+    try {
+      await axios.post(`${process.env.NEXTAUTH_URL}/api/waste/dispose`, {
+        report: parsedBody.data.reportId,
+        isValid: true,
+        disposalMethod: parsedResponse?.disposalMethod,
+        warning: parsedResponse?.howNottoDispose,
+      });
+    } catch (error) {
+      console.error(error);
+    }
     await pusher.trigger("waste-channel", "collected", {
       message: `${session.user.name} has collected waste just now`,
     });
