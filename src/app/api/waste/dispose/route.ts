@@ -1,6 +1,7 @@
 import connectToMongoDb from "@/db";
 import authOptions from "@/lib/auth";
 import Dispose from "@/models/dispose.model";
+import Waste from "@/models/waste.model";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
@@ -30,16 +31,25 @@ export async function POST(request: NextRequest) {
       );
     }
     await connectToMongoDb();
-    const existingReport = await Dispose.findOne({
+    const existingReport = await Waste.findOne({
+      _id: parsedBody.data.report,
+      status: "collected",
+    });
+    if (!existingReport) {
+      return NextResponse.json(
+        { error: "waste is not yet collected" },
+        { status: 403 }
+      );
+    }
+    const existingMethod = await Dispose.findOne({
       report: parsedBody.data.report,
     });
-    if (existingReport) {
+    if (existingMethod) {
       return NextResponse.json(
         { error: "disposal methods for that report already exist" },
         { status: 403 }
       );
     }
-
     const result = await Dispose.create(parsedBody.data);
     return NextResponse.json(result, { status: 201 });
   } catch (error) {
