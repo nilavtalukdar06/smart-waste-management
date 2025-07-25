@@ -7,6 +7,7 @@ const disposalSchema = new mongoose.Schema<IDisposal>(
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: "Waste",
+      unique: true,
     },
     isValid: {
       type: Boolean,
