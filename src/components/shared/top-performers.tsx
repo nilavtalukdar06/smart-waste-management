@@ -45,6 +45,8 @@ export default function TopPerformers({ searchTerm }: { searchTerm: string }) {
           <div className="max-w-lg">
             <Error error="Failed to fetch leaderboard" />
           </div>
+        ) : leaderboard.data && leaderboard.data.length === 0 ? (
+          <p className="text-red-500 font-light">No users are present as of now 🥲</p>
         ) : (
           <Table>
             <TableCaption>Top 10 Performers of Eco Swachh</TableCaption>
@@ -57,19 +59,18 @@ export default function TopPerformers({ searchTerm }: { searchTerm: string }) {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {leaderboard.data &&
-                leaderboard.data.map((item: leaderboard, index: number) => (
-                  <TableRow key={item._id.toString()}>
-                    <TableCell className="font-medium">{index + 1}</TableCell>
-                    <TableCell>
-                      <Highlight search={searchTerm}>{item.name}</Highlight>
-                    </TableCell>
-                    <TableCell>
-                      <Highlight search={searchTerm}>{item.email}</Highlight>
-                    </TableCell>
-                    <TableCell className="text-right">{item.rewards}</TableCell>
-                  </TableRow>
-                ))}
+              {leaderboard.data.map((item: leaderboard, index: number) => (
+                <TableRow key={item._id.toString()}>
+                  <TableCell className="font-medium">{index + 1}</TableCell>
+                  <TableCell>
+                    <Highlight search={searchTerm}>{item.name}</Highlight>
+                  </TableCell>
+                  <TableCell>
+                    <Highlight search={searchTerm}>{item.email}</Highlight>
+                  </TableCell>
+                  <TableCell className="text-right">{item.rewards}</TableCell>
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         )}

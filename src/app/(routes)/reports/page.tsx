@@ -50,7 +50,7 @@ export default function Reports() {
       if (data?.message) {
         toast(data.message, { icon: "😎" });
       } else {
-        toast("Someone started collecting waste", { icon: "😎" });
+        toast("Someone has started collecting waste", { icon: "😎" });
       }
     });
 
@@ -122,28 +122,34 @@ export default function Reports() {
           <Success message="Here are all of the recent reports in the descending order" />
         </div>
       )}
+      {data && data.result.length === 0 ? (
+        <p className="text-red-500 font-light">
+          No reports are present at this moment
+        </p>
+      ) : (
+        <div className="my-6 grid grid-cols-1 lg:grid-cols-2 place-items-center w-full gap-6">
+          {data &&
+            data.result.map((item: IWaste, index: number) => (
+              <ReportCard
+                key={index}
+                location={item.location}
+                type={item.type}
+                items={item.items}
+                weight={item.weight}
+                imageUrl={item.imageUrl}
+                createdAt={item.createdAt || ""}
+                status={item.status}
+                reporter={item.reporter.toString() || ""}
+                reportId={item?._id?.toString() || ""}
+                collector={item.collector?.toString() || ""}
+                searchTerm={debouncedValue}
+              />
+            ))}
+        </div>
+      )}
 
-      <div className="my-6 grid grid-cols-1 lg:grid-cols-2 place-items-center w-full gap-6">
-        {data &&
-          data.result.map((item: IWaste, index: number) => (
-            <ReportCard
-              key={index}
-              location={item.location}
-              type={item.type}
-              items={item.items}
-              weight={item.weight}
-              imageUrl={item.imageUrl}
-              createdAt={item.createdAt || ""}
-              status={item.status}
-              reporter={item.reporter.toString() || ""}
-              reportId={item?._id?.toString() || ""}
-              collector={item.collector?.toString() || ""}
-              searchTerm={debouncedValue}
-            />
-          ))}
-      </div>
       <div
-        className={`my-4 w-full ${isLoading || totalPages === 0 ? "hidden" : "flex"} justify-center items-center gap-x-4`}
+        className={`my-4 w-full ${isLoading || totalPages === 0 || data.result.length === 0 ? "hidden" : "flex"} justify-center items-center gap-x-4`}
       >
         <Button
           onClick={() => setPage((prev) => prev - 1)}

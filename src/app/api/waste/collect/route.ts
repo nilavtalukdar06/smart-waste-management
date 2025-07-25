@@ -50,7 +50,7 @@ export async function PATCH(request: NextRequest) {
       );
     }
     await pusher.trigger("waste-channel", "waste-updated", {
-      message: `${session.user.name} started collection of waste`,
+      message: `${session.user.name} has started collection of waste`,
     });
     return NextResponse.json({ collectorId: session.user.id }, { status: 200 });
   } catch (error) {
