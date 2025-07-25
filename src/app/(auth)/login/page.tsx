@@ -45,7 +45,7 @@ export default function Login() {
       });
       if (result?.ok) {
         form.reset();
-        router.push("/");
+        router.push("/dashboard");
       }
       if (result?.error) {
         setError(result.error);
