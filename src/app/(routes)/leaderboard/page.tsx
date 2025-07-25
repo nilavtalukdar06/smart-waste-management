@@ -1,11 +1,15 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import TopPerformers from "@/components/shared/top-performers";
 import { useDebounce } from "react-use";
+import { useQueryClient } from "@tanstack/react-query";
+import Pusher from "pusher-js";
+import { toast } from "sonner";
 
 export default function Leaderboard() {
+  const queryClient = useQueryClient();
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState<string>("");
   useDebounce(
@@ -15,6 +19,54 @@ export default function Leaderboard() {
     500,
     [searchTerm]
   );
+
+  useEffect(() => {
+    const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY!, {
+      cluster: process.env.NEXT_PUBLIC_PUSHER_CLUSTER!,
+    });
+    const channel = pusher.subscribe("user-channel");
+    channel.bind("user-registered", (data: any) => {
+      queryClient.refetchQueries({
+        queryKey: ["leaderboard"],
+      });
+      if (data?.message) {
+        toast(data.message, { icon: "😊" });
+      } else {
+        toast("Someone has just registered to Eco Swachh", { icon: "😊" });
+      }
+    });
+
+    channel.bind("user-reported-waste", (data: any) => {
+      queryClient.refetchQueries({
+        queryKey: ["leaderboard"],
+      });
+      if (data?.message) {
+        toast(data.message, { icon: "🪙" });
+      } else {
+        toast("Someone has just got 10 points for reporting waste", {
+          icon: "🪙",
+        });
+      }
+    });
+
+    channel.bind("user-collected-waste", (data: any) => {
+      queryClient.refetchQueries({
+        queryKey: ["leaderboard"],
+      });
+      if (data?.message) {
+        toast(data.message, { icon: "🪙" });
+      } else {
+        toast("Someone has just got 50 points for collecting waste", {
+          icon: "🪙",
+        });
+      }
+    });
+    return function () {
+      channel.unbind_all();
+      channel.unsubscribe();
+      pusher.disconnect();
+    };
+  }, [queryClient]);
 
   return (
     <div className="p-4">
