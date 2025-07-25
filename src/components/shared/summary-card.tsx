@@ -4,7 +4,7 @@ import { Button } from "../ui/button";
 export default function SummaryCard() {
   return (
     <div className="my-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 place-items-center gap-4">
-      <div className="w-full p-4 border rounded-lg bg-neutral-100">
+      <div className="w-full p-4 border rounded-lg bg-sidebar">
         <div className="flex flex-col justify-center items-start gap-y-3">
           <Button className="pointer-events-none" variant="secondary" size="sm">
             <Recycle />
