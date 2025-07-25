@@ -1,13 +1,25 @@
-import { type ChartConfig } from "@/components/ui/chart";
+"use client";
+import {
+  type ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+  ChartLegend,
+  ChartLegendContent,
+} from "@/components/ui/chart";
+import { Monitor, Smartphone } from "lucide-react";
+import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 
 const chartConfig = {
   desktop: {
     label: "Desktop",
     color: "#2563eb",
+    icon: Monitor,
   },
   mobile: {
     label: "Mobile",
     color: "#60a5fa",
+    icon: Smartphone,
   },
 } satisfies ChartConfig;
 
@@ -22,8 +34,23 @@ const chartData = [
 
 export default function MainChart() {
   return (
-    <div className="my-6">
-      <p>Main Chart</p>
+    <div className="my-6 w-full">
+      <ChartContainer config={chartConfig} className="h-[400px] w-full">
+        <BarChart accessibilityLayer data={chartData}>
+          <CartesianGrid vertical={false} />
+          <XAxis
+            dataKey="month"
+            tickLine={false}
+            tickMargin={10}
+            axisLine={false}
+            tickFormatter={(value) => value.slice(0, 3)}
+          />
+          <ChartTooltip content={<ChartTooltipContent />} />
+          <ChartLegend content={<ChartLegendContent />} />
+          <Bar dataKey="desktop" fill="var(--color-desktop)" radius={4} />
+          <Bar dataKey="mobile" fill="var(--color-mobile)" radius={4} />
+        </BarChart>
+      </ChartContainer>
     </div>
   );
 }
