@@ -6,7 +6,7 @@ import TopPerformers from "@/components/shared/top-performers";
 import { useDebounce } from "react-use";
 import { useQueryClient } from "@tanstack/react-query";
 import Pusher from "pusher-js";
-import { toast } from "sonner";
+import toast from "react-hot-toast";
 
 export default function Leaderboard() {
   const queryClient = useQueryClient();
