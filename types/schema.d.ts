@@ -26,3 +26,13 @@ interface IWaste {
   createdAt?: Date;
   updatedAt?: Date;
 }
+
+interface IDisposal {
+  _id?: mongoose.Types.ObjectId;
+  isValid: boolean;
+  disposalMethod: string;
+  warning: string;
+  report: mongoose.Schema.Types.ObjectId;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
