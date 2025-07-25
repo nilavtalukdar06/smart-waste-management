@@ -21,7 +21,10 @@ const generateInsight = async (
             - Most reported waste type: ${mostReportedType}
             - Most collected waste type: ${mostCollectedType}
 
-            Write a friendly, encouraging paragraph summarizing this user's performance.`,
+            Write a friendly, encouraging paragraph summarizing this user's performance.
+            Strictly Generate plain text paragraph, no bullet points, tables or anything like that
+            just plain and simple text based paragraph
+            `,
   });
 
   return text;
