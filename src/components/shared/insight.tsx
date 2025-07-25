@@ -1,4 +1,13 @@
+"use client";
+import fetchInsight from "@/utils/api/insight";
+import { useQuery } from "@tanstack/react-query";
+
 export default function Insight() {
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["insight"],
+    queryFn: fetchInsight,
+  });
+
   return (
     <article className="p-4 md:p-6 border rounded-lg">
       <h1 className="text-2xl md:text-3xl font-medium text-neutral-600">
