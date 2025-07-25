@@ -10,7 +10,7 @@ interface IPrompt {
   mostCollectedType: string;
 }
 
-const geenrateInsight = async (...params: IPrompt[]) => {
+const generateInsight = async (...params: IPrompt[]) => {
   const { text } = await generateText({
     model: google("gemini-2.5-flash"),
     prompt: `You are an assistant that generates a 100-150 word user summary for a waste management app.
@@ -29,4 +29,4 @@ const geenrateInsight = async (...params: IPrompt[]) => {
   return text;
 };
 
-export default geenrateInsight;
+export default generateInsight;
