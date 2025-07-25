@@ -3,9 +3,19 @@ import { useState } from "react";
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import TopPerformers from "@/components/shared/top-performers";
+import { useDebounce } from "react-use";
 
 export default function Leaderboard() {
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState<string>("");
+  useDebounce(
+    () => {
+      setDebouncedSearchTerm(searchTerm);
+    },
+    500,
+    [searchTerm]
+  );
+
   return (
     <div className="p-4">
       <h2 className="text-3xl font-medium text-neutral-600">Leaderboard 👑</h2>
@@ -20,7 +30,7 @@ export default function Leaderboard() {
           />
         </div>
       </div>
-      <TopPerformers searchTerm={searchTerm} />
+      <TopPerformers searchTerm={debouncedSearchTerm} />
     </div>
   );
 }
