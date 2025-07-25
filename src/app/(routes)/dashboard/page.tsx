@@ -1,4 +1,5 @@
 import ReportWaste from "@/components/dialog/report-waste";
+import SummaryCard from "@/components/shared/summary-card";
 import authOptions from "@/lib/auth";
 import { TriangleAlert } from "lucide-react";
 import { getServerSession } from "next-auth";
@@ -32,6 +33,7 @@ export default async function Dashboard() {
       )}
       <div className="my-4">
         <ReportWaste />
+        <SummaryCard />
       </div>
     </section>
   );
