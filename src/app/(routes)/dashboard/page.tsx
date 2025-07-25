@@ -1,3 +1,4 @@
+import GetInsight from "@/components/context/get-insight";
 import ReportWaste from "@/components/dialog/report-waste";
 import Insight from "@/components/shared/insight";
 import SummaryCard from "@/components/shared/summary-card";
@@ -35,7 +36,9 @@ export default async function Dashboard() {
       <div className="my-4">
         <ReportWaste />
         <SummaryCard />
-        <Insight />
+        <GetInsight>
+          <Insight />
+        </GetInsight>
       </div>
     </section>
   );
