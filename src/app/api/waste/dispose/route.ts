@@ -1,8 +1,6 @@
 import connectToMongoDb from "@/db";
-import authOptions from "@/lib/auth";
 import Dispose from "@/models/dispose.model";
 import Waste from "@/models/waste.model";
-import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
@@ -15,13 +13,6 @@ const bodySchema = z.object({
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
-    if (!session) {
-      return NextResponse.json(
-        { error: "user is not authenticated" },
-        { status: 401 }
-      );
-    }
     const requestBody = await request.json();
     const parsedBody = bodySchema.safeParse(requestBody);
     if (!parsedBody.success) {
