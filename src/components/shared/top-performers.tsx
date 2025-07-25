@@ -28,7 +28,6 @@ export default function TopPerformers({ searchTerm }: { searchTerm: string }) {
     queryKey: ["leaderboard", searchTerm],
     queryFn: async () => {
       const response = await axios.get(`/api/leaderboard?query=${searchTerm}`);
-      console.log(response.data);
       return response.data;
     },
   });
