@@ -1,4 +1,5 @@
 import BlogSection from "@/components/page/blog-section";
+import FeatureSection from "@/components/page/feature-section";
 import HeroSection from "@/components/page/hero-section";
 import Navbar from "@/components/shared/navbar";
 
@@ -8,6 +9,7 @@ export default function Home() {
       <Navbar />
       <HeroSection />
       <BlogSection />
+      <FeatureSection />
     </section>
   );
 }
