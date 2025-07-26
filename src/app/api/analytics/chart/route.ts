@@ -58,7 +58,25 @@ export async function GET() {
         $sort: { _id: 1 },
       },
     ]);
-    return NextResponse.json({ reports, collections }, { status: 200 });
+    const reportMap = new Map(
+      reports.map((item: any) => [item._id, item.count])
+    );
+    const collectionMap = new Map(
+      collections.map((item: any) => [item._id, item.count])
+    );
+    const allDatesSet = new Set<string>([
+      ...reportMap.keys(),
+      ...collectionMap.keys(),
+    ]);
+    const mergedData = Array.from(allDatesSet).map((date) => ({
+      _id: date,
+      reports: reportMap.get(date) || 0,
+      collections: collectionMap.get(date) || 0,
+    }));
+    mergedData.sort(
+      (a, b) => new Date(a._id).getTime() - new Date(b._id).getTime()
+    );
+    return NextResponse.json(mergedData, { status: 200 });
   } catch (error) {
     console.error(error);
     return NextResponse.json(
