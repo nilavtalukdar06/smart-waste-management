@@ -22,7 +22,11 @@ export default function BlogSection() {
               key={index + 1}
             >
               <div className="mb-5">
-                <Button size="sm" variant="secondary">
+                <Button
+                  size="sm"
+                  variant="secondary"
+                  className="pointer-events-none"
+                >
                   <item.Icon />
                 </Button>
                 <div className="mt-5">
