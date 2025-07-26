@@ -1,4 +1,7 @@
 import Image from "next/image";
+import Link from "next/link";
+import { Button } from "../ui/button";
+import { AlertCircle, Recycle } from "lucide-react";
 
 export default function HeroSection() {
   return (
@@ -17,9 +20,21 @@ export default function HeroSection() {
               conscious, and cleaner nation together.
             </p>
           </div>
+          <div className="flex justify-start items-center gap-x-4 my-4">
+            <Link href="/dashboard">
+              <Button variant="destructive">
+                Report Waste <AlertCircle />
+              </Button>
+            </Link>
+            <Link href="/reports">
+              <Button variant="secondary">
+                CollectWaste <Recycle />
+              </Button>
+            </Link>
+          </div>
         </div>
       </div>
-      <div className="relative overflow-hidden pt-4 mt-12">
+      <div className="relative overflow-hidden pt-4 mt-6">
         <div className="relative z-10">
           <div className="w-full mx-auto">
             <div className="mb-4">
