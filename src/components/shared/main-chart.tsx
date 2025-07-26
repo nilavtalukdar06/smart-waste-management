@@ -115,7 +115,7 @@ export default function MainChart() {
               <Recycle className="h-4 w-4 text-green-500" />
             </div>
             <div className="text-muted-foreground leading-snug font-light">
-              Showing total waste reported and collected in the last 7 days
+              This data is updated on a daily basis
             </div>
           </CardFooter>
         </Card>
