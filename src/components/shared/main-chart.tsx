@@ -9,20 +9,20 @@ import {
 } from "@/components/ui/chart";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { Loader, Monitor, Smartphone } from "lucide-react";
+import { AlertCircle, Loader, Recycle } from "lucide-react";
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 import Error from "./error";
 
 const chartConfig = {
   desktop: {
-    label: "Desktop",
-    color: "#2563eb",
-    icon: Monitor,
+    label: "Reported Waste",
+    color: "var(--chart-1)",
+    icon: AlertCircle,
   },
   mobile: {
-    label: "Mobile",
-    color: "#60a5fa",
-    icon: Smartphone,
+    label: "Collected Waste",
+    color: "var(--chart-2)",
+    icon: Recycle,
   },
 } satisfies ChartConfig;
 
@@ -56,7 +56,10 @@ export default function MainChart() {
   if (data) {
     return (
       <div className="my-6 w-full">
-        <ChartContainer config={chartConfig} className="h-[400px] w-full">
+        <ChartContainer
+          config={chartConfig}
+          className="aspect-auto h-[400px] w-full"
+        >
           <BarChart accessibilityLayer data={data}>
             <CartesianGrid vertical={false} />
             <XAxis
@@ -68,8 +71,8 @@ export default function MainChart() {
             />
             <ChartTooltip content={<ChartTooltipContent />} />
             <ChartLegend content={<ChartLegendContent />} />
-            <Bar dataKey="reports" fill="var(--color-desktop)" radius={4} />
-            <Bar dataKey="collections" fill="var(--color-mobile)" radius={4} />
+            <Bar dataKey="reports" fill="var(--color-chart-1)" radius={4} />
+            <Bar dataKey="collections" fill="var(--color-chart-2)" radius={4} />
           </BarChart>
         </ChartContainer>
       </div>
