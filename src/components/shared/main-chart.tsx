@@ -66,6 +66,11 @@ export default function MainChart() {
         <CardContent>
           {isLoading ? (
             <Skeleton className="aspect-auto h-[400px] w-full" />
+          ) : data?.length === 0 ? (
+            <div className="text-lg font-medium text-neutral-600">
+              You have not reported or collected any waste, please report or
+              collect some waste to be eligible for analytics
+            </div>
           ) : (
             <ChartContainer
               config={chartConfig}
@@ -89,11 +94,17 @@ export default function MainChart() {
                 />
                 <ChartTooltip content={<ChartTooltipContent />} />
                 <ChartLegend content={<ChartLegendContent />} />
-                <Bar dataKey="reports" fill="var(--color-chart-1)" radius={4} />
+                <Bar
+                  dataKey="reports"
+                  fill="var(--color-chart-1)"
+                  radius={4}
+                  className="hover:bg-none"
+                />
                 <Bar
                   dataKey="collections"
                   fill="var(--color-chart-2)"
                   radius={4}
+                  className="hover:bg-none"
                 />
               </BarChart>
             </ChartContainer>
