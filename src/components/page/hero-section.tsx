@@ -57,7 +57,7 @@ export default function HeroSection() {
         </div>
       </div>
 
-      <div className="mt-24 mb-12 flex flex-wrap justify-center md:justify-between items-center gap-6">
+      <div className="mt-24 mb-12 flex flex-wrap justify-start md:justify-between items-center gap-6">
         <Image
           src="https://ik.imagekit.io/txlfejzn5/icons/MyGov.svg?updatedAt=1753519672149"
           alt="logo of my gov india"
