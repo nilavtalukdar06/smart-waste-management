@@ -11,6 +11,10 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import { toast } from "sonner";
+import { Loader } from "lucide-react";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Email is not valid" }),
@@ -24,8 +28,26 @@ export default function NewsLetterSection() {
     },
   });
 
+  const sendEmail = useMutation({
+    mutationKey: ["send-email"],
+    mutationFn: async (email: string) => {
+      const response = await axios.post("/api/emails/subscribe", {
+        email: email,
+      });
+      return response.data;
+    },
+    onError: (error) => {
+      console.log(error?.message);
+      toast.error("Failed to send email");
+    },
+    onSuccess: () => {
+      toast.success("You are now a subscriber of Eco Swachh");
+      form.reset();
+    },
+  });
+
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
+    sendEmail.mutate(values.email);
   };
 
   return (
@@ -36,6 +58,7 @@ export default function NewsLetterSection() {
             Sign up to our newsletter
           </h2>
         </div>
+
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
             <div className="mt-5 lg:mt-8 flex flex-col w-full items-start gap-2 sm:flex-row sm:gap-3">
@@ -59,8 +82,13 @@ export default function NewsLetterSection() {
                 type="submit"
                 variant="secondary"
                 className="w-full sm:w-fit"
+                disabled={sendEmail.isPending}
               >
-                Subscribe Now
+                {sendEmail.isPending ? (
+                  <Loader size={16} className="animate-spin" />
+                ) : (
+                  <span>Subscribe Now</span>
+                )}
               </Button>
             </div>
           </form>
