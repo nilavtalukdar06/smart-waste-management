@@ -4,3 +4,9 @@ interface IBlog {
   title: string;
   description: string;
 }
+
+interface IFeature {
+  Icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  title: string;
+  description: string;
+}
