@@ -1,10 +1,16 @@
 "use client";
-import { Bell } from "lucide-react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Email is not valid" }),
@@ -30,19 +36,35 @@ export default function NewsLetterSection() {
             Sign up to our newsletter
           </h2>
         </div>
-        <form>
-          <div className="mt-5 lg:mt-8 flex flex-col items-center gap-2 sm:flex-row sm:gap-3">
-            <div className="w-full">
-              <label htmlFor="hero-input" className="sr-only">
-                Search
-              </label>
-              <Input placeholder="Enter your email" />
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
+            <div className="mt-5 lg:mt-8 flex flex-col w-full items-start gap-2 sm:flex-row sm:gap-3">
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormControl>
+                      <Input
+                        placeholder="Enter your email"
+                        {...field}
+                        className="w-full"
+                      />
+                    </FormControl>
+                    <FormMessage className="justify-self-start" />
+                  </FormItem>
+                )}
+              />
+              <Button
+                type="submit"
+                variant="secondary"
+                className="w-full sm:w-fit"
+              >
+                Subscribe Now
+              </Button>
             </div>
-            <Button variant="secondary" className="w-full sm:w-fit">
-              Subscribe <Bell />
-            </Button>
-          </div>
-        </form>
+          </form>
+        </Form>
       </div>
     </div>
   );
