@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export default function CtaSection() {
   return (
-    <div className="px-5 w-full my-24 flex flex-col md:flex-row justify-around items-center gap-12">
+    <div className="px-5 w-full mt-24 mb-0 flex flex-col md:flex-row justify-around items-center gap-12">
       <div className="flex flex-col justify-center items-start max-w-lg gap-6">
         <h2 className="text-4xl text-neutral-600 font-medium">
           Start your journey to a cleaner community
