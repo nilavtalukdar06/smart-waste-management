@@ -49,7 +49,9 @@ export default function MainChart() {
     return (
       <div className="my-6 w-full flex justify-start items-center gap-x-4">
         <Loader className="animate-spin text-green-500" size={24} />
-        <p className="text-lg font-medium">Fetching Analytics...</p>
+        <p className="text-lg font-medium text-neutral-600">
+          Fetching Analytics...
+        </p>
       </div>
     );
   }
