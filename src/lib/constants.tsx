@@ -1,5 +1,14 @@
 import { ICard } from "@/components/shared/card";
-import { CheckCircle, Heart, Leaf, Plus, Recycle } from "lucide-react";
+import {
+  CheckCircle,
+  Coins,
+  Heart,
+  Leaf,
+  MapPin,
+  Plus,
+  Recycle,
+  Sparkle,
+} from "lucide-react";
 
 export const cardItems: ICard[] = [
   {
@@ -37,5 +46,31 @@ export const blogItems: IBlog[] = [
     title: "Recycling Rate",
     description:
       "Indicates the proportion of total waste that has been identified as recyclable and processed through appropriate channels, showcasing our progress towards sustainability.",
+  },
+];
+
+export const features: IFeature[] = [
+  {
+    Icon: MapPin,
+    title: "Instant Waste Reporting",
+    description: "Report waste with photo, type, and live location in seconds.",
+  },
+  {
+    Icon: CheckCircle,
+    title: "Real-time Collection Tracking",
+    description:
+      "Track the status of your waste reports from pending to collected.",
+  },
+  {
+    Icon: Sparkle,
+    title: "AI Insights & Analytics",
+    description:
+      "Get smart insights on waste trends, types, and community impact.",
+  },
+  {
+    Icon: Coins,
+    title: "Coin Rewards System",
+    description:
+      "Earn rewards for every verified report and climb the leaderboard.",
   },
 ];
