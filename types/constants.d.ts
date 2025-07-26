@@ -10,3 +10,8 @@ interface IFeature {
   title: string;
   description: string;
 }
+
+interface IFaq {
+  question: string;
+  answer: string;
+}
