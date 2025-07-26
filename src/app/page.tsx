@@ -17,8 +17,8 @@ export default function Home() {
       <FaqSection />
       <CtaSection />
       <NewsLetterSection />
-      <footer className="my-6">
-        <p className="text-neutral-500 text-start sm:text-center flex justify-start sm:justify-center items-center gap-x-4 font-light">
+      <footer className="my-6 px-5">
+        <p className="text-neutral-500 text-start sm:text-center flex justify-center items-center gap-x-4 font-light">
           <Copyright className="text-green-500 animate-pulse" />{" "}
           {new Date().getFullYear()} Eco Swachh. All rights reserved.
         </p>
