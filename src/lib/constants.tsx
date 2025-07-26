@@ -74,3 +74,36 @@ export const features: IFeature[] = [
       "Earn rewards for every verified report and climb the leaderboard.",
   },
 ];
+
+export const faqs: IFaq[] = [
+  {
+    question: "What is Eco Swachh?",
+    answer:
+      "Eco Swachh is an AI-powered waste management platform that allows users to report waste, track collections, earn rewards, and access environmental insights — all in one place.",
+  },
+  {
+    question: "How do I report waste?",
+    answer:
+      "You can report waste by uploading a photo, selecting the type of waste, and allowing location access. Your report is then sent to the nearest available collector for verification.",
+  },
+  {
+    question: "What types of waste can I report?",
+    answer:
+      "Eco Swachh supports multiple categories including plastic, electronic, organic, metal, and mixed waste. You simply choose the category that best fits what you're reporting.",
+  },
+  {
+    question: "How does the coin reward system work?",
+    answer:
+      "Every verified waste report earns you EcoCoins. The more reports you make and the more waste you collect, the more coins you earn. These contribute to your rank on the leaderboard.",
+  },
+  {
+    question: "How can I track my waste report status?",
+    answer:
+      "Go to your dashboard to see the status of each report — whether it’s pending, verified, or collected — all updated in real time.",
+  },
+  {
+    question: "Are there any insights or analytics available?",
+    answer:
+      "Yes! Eco Swachh provides AI-generated insights on your activity — including the most reported waste type, collection rate, and your personal impact summary.",
+  },
+];
