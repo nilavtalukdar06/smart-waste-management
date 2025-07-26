@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/form";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import { toast } from "sonner";
+import toast from "react-hot-toast";
 import { Loader } from "lucide-react";
 
 const formSchema = z.object({
