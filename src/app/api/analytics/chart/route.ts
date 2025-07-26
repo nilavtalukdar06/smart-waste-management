@@ -58,6 +58,7 @@ export async function GET() {
         $sort: { _id: 1 },
       },
     ]);
+
     const reportMap = new Map(
       reports.map((item: any) => [item._id, item.count])
     );
@@ -76,6 +77,7 @@ export async function GET() {
     mergedData.sort(
       (a, b) => new Date(a._id).getTime() - new Date(b._id).getTime()
     );
+
     return NextResponse.json(mergedData, { status: 200 });
   } catch (error) {
     console.error(error);
