@@ -47,8 +47,8 @@ export async function GET() {
       totalCollected,
       rank,
       session.user.rewards,
-      mostReportedType[0]._id,
-      mostCollectedType[0]._id
+      mostReportedType[0]?._id || 0,
+      mostCollectedType[0]?._id || 0
     );
     if (!result) {
       return NextResponse.json(
