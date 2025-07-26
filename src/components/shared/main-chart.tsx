@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/chart";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { AlertCircle, Loader, Recycle } from "lucide-react";
+import { AlertCircle, Recycle } from "lucide-react";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import Error from "./error";
 import { format, parseISO } from "date-fns";
@@ -21,6 +21,7 @@ import {
   CardContent,
   CardFooter,
 } from "../ui/card";
+import { Skeleton } from "../ui/skeleton";
 
 const chartConfig = {
   reports: {
@@ -45,17 +46,6 @@ export default function MainChart() {
     },
   });
 
-  if (isLoading) {
-    return (
-      <div className="my-6 w-full flex justify-start items-center gap-x-4">
-        <Loader className="animate-spin text-green-500" size={24} />
-        <p className="text-lg font-medium text-neutral-600">
-          Fetching Analytics...
-        </p>
-      </div>
-    );
-  }
-
   if (isError) {
     return (
       <div className="my-6 max-w-md mr-auto">
@@ -64,27 +54,24 @@ export default function MainChart() {
     );
   }
 
-  if (data) {
-    return (
-      <div className="my-6 w-full">
-        <Card className="shadow-none">
-          <CardHeader>
-            <CardTitle>User Analytics</CardTitle>
-            <CardDescription className="font-light">
-              Showing total waste reported and collected by you in the last 7
-              days
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="pl-0">
+  return (
+    <div className="my-6 w-full">
+      <Card className="shadow-none">
+        <CardHeader>
+          <CardTitle>User Analytics</CardTitle>
+          <CardDescription className="font-light">
+            Showing total waste reported and collected by you in the last 7 days
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          {isLoading ? (
+            <Skeleton className="aspect-auto h-[400px] w-full" />
+          ) : (
             <ChartContainer
               config={chartConfig}
               className="aspect-auto h-[400px] w-full"
             >
-              <BarChart
-                accessibilityLayer
-                data={data}
-                className="ml-[-20px] md:ml-[-10px]"
-              >
+              <BarChart accessibilityLayer data={data} className="ml-[-40px]">
                 <CartesianGrid vertical={false} />
                 <XAxis
                   dataKey="_id"
@@ -110,18 +97,18 @@ export default function MainChart() {
                 />
               </BarChart>
             </ChartContainer>
-          </CardContent>
-          <CardFooter className="flex-col items-start gap-2 text-sm">
-            <div className="flex gap-2 leading-none font-medium">
-              Your weekly waste activity summary{" "}
-              <Recycle className="h-4 w-4 text-green-500" />
-            </div>
-            <div className="text-muted-foreground leading-snug font-light">
-              This data is updated on a daily basis
-            </div>
-          </CardFooter>
-        </Card>
-      </div>
-    );
-  }
+          )}
+        </CardContent>
+        <CardFooter className="flex-col items-start gap-2 text-sm">
+          <div className="flex gap-2 leading-none font-medium">
+            Your weekly waste activity summary{" "}
+            <Recycle className="h-4 w-4 text-green-500" />
+          </div>
+          <div className="text-muted-foreground leading-snug font-light">
+            This data is updated on a daily basis
+          </div>
+        </CardFooter>
+      </Card>
+    </div>
+  );
 }
