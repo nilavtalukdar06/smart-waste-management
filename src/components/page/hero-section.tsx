@@ -6,7 +6,7 @@ import { AlertCircle, Recycle } from "lucide-react";
 export default function HeroSection() {
   return (
     <div className="px-5 my-12">
-      <div className="overflow-hidden">
+      <div>
         <div className="w-full md:pt-12">
           <h1 className="font-medium text-neutral-600 text-5xl md:text-6xl leading-tight">
             <span className="text-green-500">EcoSwachh:</span> A Digital Step
