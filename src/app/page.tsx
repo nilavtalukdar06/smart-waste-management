@@ -1,4 +1,5 @@
 import BlogSection from "@/components/page/blog-section";
+import CtaSection from "@/components/page/cta-section";
 import FaqSection from "@/components/page/faq-section";
 import FeatureSection from "@/components/page/feature-section";
 import HeroSection from "@/components/page/hero-section";
@@ -12,6 +13,7 @@ export default function Home() {
       <BlogSection />
       <FeatureSection />
       <FaqSection />
+      <CtaSection />
     </section>
   );
 }
