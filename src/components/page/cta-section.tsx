@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export default function CtaSection() {
   return (
-    <div className="px-5 w-full my-24 flex flex-col sm:flex-row justify-around items-center gap-12">
+    <div className="px-5 w-full my-24 flex flex-col md:flex-row justify-around items-center gap-12">
       <div className="flex flex-col justify-center items-start max-w-lg gap-6">
         <h2 className="text-4xl text-neutral-600 font-medium">
           Start your journey to a cleaner community
@@ -21,7 +21,7 @@ export default function CtaSection() {
           </Button>
         </Link>
       </div>
-      <div className="sm:my-6">
+      <div className="md:my-6">
         <Image
           src="https://ik.imagekit.io/txlfejzn5/Untitled%20design%20(6).png?updatedAt=1753536404636"
           height={400}
