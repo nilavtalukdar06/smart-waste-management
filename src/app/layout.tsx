@@ -4,6 +4,7 @@ import "./globals.css";
 import ProtectedRoutes from "@/components/auth/context/protected-routes";
 import QueryContext from "@/components/context/query-context";
 import { Toaster } from "react-hot-toast";
+import { Analytics } from "@vercel/analytics/next";
 
 const nunito = Nunito({
   subsets: ["latin"],
@@ -27,6 +28,7 @@ export default function RootLayout({
           <main>
             <QueryContext>
               {children}
+              <Analytics />
               <Toaster position="bottom-right" reverseOrder={false} />
             </QueryContext>
           </main>
