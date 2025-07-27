@@ -250,10 +250,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 For support with version upgrades or migration issues:
 
-- **Documentation**: [Migration Guide](https://github.com/yourusername/smart-waste-management/wiki/migration)
-- **Issues**: [GitHub Issues](https://github.com/yourusername/smart-waste-management/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/smart-waste-management/discussions)
-- **Email**: support@ecoswachh.com
+- **Documentation**: [Migration Guide](https://github.com/nilavtalukdar06/smart-waste-management/wiki/migration)
+- **Issues**: [GitHub Issues](https://github.com/nilavtalukdar06/smart-waste-management/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/nilavtalukdar06/smart-waste-management/discussions)
+- **Email**: nilavtalukdar9@gmail.com
 
 ---
 
