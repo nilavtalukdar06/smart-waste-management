@@ -16,7 +16,7 @@ This guide covers deploying Eco Swachh to various platforms and environments.
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/yourusername/smart-waste-management.git
+   git clone https://github.com/nilavtalukdar06/smart-waste-management.git
    cd smart-waste-management
    ```
 
@@ -313,7 +313,7 @@ docker-compose down
 
 3. **Clone and deploy**
    ```bash
-   git clone https://github.com/yourusername/smart-waste-management.git
+   git clone https://github.com/nilavtalukdar06/smart-waste-management.git
    cd smart-waste-management
    npm install
    npm run build
@@ -692,9 +692,9 @@ Sentry.init({
 
 For deployment issues:
 
-- **Documentation**: [Deployment Wiki](https://github.com/yourusername/smart-waste-management/wiki/deployment)
-- **Issues**: [GitHub Issues](https://github.com/yourusername/smart-waste-management/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/smart-waste-management/discussions)
+- **Documentation**: [Deployment Wiki](https://github.com/nilavtalukdar06/smart-waste-management/wiki/deployment)
+- **Issues**: [GitHub Issues](https://github.com/nilavtalukdar06/smart-waste-management/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/nilavtalukdar06/smart-waste-management/discussions)
 - **Email**: deployment@ecoswachh.com
 
 ---
