@@ -32,7 +32,7 @@ We welcome various types of contributions:
    ```bash
    # Click the "Fork" button on GitHub
    # Then clone your fork
-   git clone https://github.com/YOUR_USERNAME/smart-waste-management.git
+   git clone https://github.com/nilavtalukdar06/smart-waste-management.git
    cd smart-waste-management
    ```
 
@@ -311,7 +311,7 @@ docs/
 
 If you discover a security vulnerability, please report it privately:
 
-1. **Email**: security@ecoswachh.com
+1. **Email**: nilavtalukdar9@gmail.com
 2. **Subject**: [SECURITY] Vulnerability Description
 3. **Include**: Detailed description and steps to reproduce
 
@@ -375,9 +375,9 @@ If you discover a security vulnerability, please report it privately:
 
 ### Resources
 
-- **Documentation**: [Project Wiki](https://github.com/yourusername/smart-waste-management/wiki)
-- **Issues**: [GitHub Issues](https://github.com/yourusername/smart-waste-management/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/smart-waste-management/discussions)
+- **Documentation**: [Project Wiki](https://github.com/nilavtalukdar06/smart-waste-management/wiki)
+- **Issues**: [GitHub Issues](https://github.com/nilavtalukdar06/smart-waste-management/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/nilavtalukdar06/smart-waste-management/discussions)
 - **Email**: contributors@ecoswachh.com
 
 ### Mentorship
