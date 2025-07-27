@@ -16,8 +16,7 @@ A comprehensive smart waste management platform that leverages AI, real-time tra
 
 - **Secure User Registration** with Aadhaar verification
 - **JWT-based Authentication** with NextAuth.js
-- **Account Verification** through AI-powered document analysis
-- **Role-based Access Control** for different user types
+- **Account Verification** through AI-powered AADHAAR analysis
 
 ### 🤖 AI-Powered Waste Analysis
 
@@ -45,8 +44,6 @@ A comprehensive smart waste management platform that leverages AI, real-time tra
 
 - **GPS Integration** for precise waste location tracking
 - **Geolocation Services** for waste reporting
-- **Location-based Analytics**
-- **Map Integration** for waste collection routes
 
 ### 📧 Communication
 
@@ -328,9 +325,9 @@ classDiagram
         +getDisposalRecommendation()
     }
 
-    User ||--o{ Waste : reports
-    User ||--o{ Waste : collects
-    Waste ||--o| Disposal : has
+    User "1" o-- "many" Waste : reports
+    User "1" o-- "many" Waste : collects
+    Waste "1" o-- "1" Disposal : has
     Waste --> Analytics : analyzed by
     User --> NotificationService : receives
     Waste --> AIService : processed by
@@ -675,19 +672,10 @@ We welcome contributions from the community! Please read our [Contributing Guide
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
-
-### Core Team
-
-- **Project Lead**: [Your Name](https://github.com/yourusername)
-- **Lead Developer**: [Developer Name](https://github.com/developer)
-- **UI/UX Designer**: [Designer Name](https://github.com/designer)
-- **DevOps Engineer**: [DevOps Name](https://github.com/devops)
-
 ### Contributors
 
-<a href="https://github.com/yourusername/smart-waste-management/graphs/contributors">
-  <img src="https://contributors-img.web.app/image?repo=yourusername/smart-waste-management" />
+<a href="https://github.com/nilvtalukdar06/smart-waste-management/graphs/contributors">
+  <img src="https://contributors-img.web.app/image?repo=nilavtalukdar06/smart-waste-management" />
 </a>
 
 ### Special Thanks
@@ -718,43 +706,25 @@ This project uses several open-source libraries. We're grateful to their maintai
 
 ## 📞 Support
 
-- **Documentation**: [Project Wiki](https://github.com/yourusername/smart-waste-management/wiki)
-- **Issues**: [GitHub Issues](https://github.com/yourusername/smart-waste-management/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/smart-waste-management/discussions)
-- **Email**: support@ecoswachh.com
-
-## 🌟 Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=yourusername/smart-waste-management&type=Date)](https://star-history.com/#yourusername/smart-waste-management&Date)
+- **Documentation**: [Project Wiki](https://github.com/nilavtalukdar06/smart-waste-management/wiki)
+- **Issues**: [GitHub Issues](https://github.com/nilavtalukdar06/smart-waste-management/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/nilavtalukdar06/smart-waste-management/discussions)
+- **Email**: nilavtalukdar9@gmail.com
 
 ## 📈 Project Statistics
 
-![GitHub stars](https://img.shields.io/github/stars/yourusername/smart-waste-management?style=social)
-![GitHub forks](https://img.shields.io/github/forks/yourusername/smart-waste-management?style=social)
-![GitHub issues](https://img.shields.io/github/issues/yourusername/smart-waste-management)
-![GitHub pull requests](https://img.shields.io/github/issues-pr/yourusername/smart-waste-management)
-![GitHub contributors](https://img.shields.io/github/contributors/yourusername/smart-waste-management)
-![GitHub last commit](https://img.shields.io/github/last-commit/yourusername/smart-waste-management)
+![GitHub stars](https://img.shields.io/github/stars/nilavtalukdar06/smart-waste-management?style=social)
+![GitHub forks](https://img.shields.io/github/forks/nilavtalukdar06/smart-waste-management?style=social)
+![GitHub issues](https://img.shields.io/github/issues/nilavtalukdar06/smart-waste-management)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/nilavtalukdar06/smart-waste-management)
+![GitHub contributors](https://img.shields.io/github/contributors/nilavtalukdar06/smart-waste-management)
+![GitHub last commit](https://img.shields.io/github/last-commit/nilavtalukdar06/smart-waste-management)
 
 ## 🏆 Awards & Recognition
 
-- **🏆 Best Open Source Project 2024** - Tech Community Awards
-- **🥇 Innovation in Sustainability** - Green Tech Summit
-- **🌟 Featured Project** - GitHub Trending
-- **📱 Top 10 Waste Management Apps** - App Store
+Awards
 
-## 📰 Press & Media
-
-- [TechCrunch: "AI-Powered Waste Management Platform Goes Open Source"](https://techcrunch.com/eco-swachh)
-- [The Hindu: "Indian Startup Revolutionizes Waste Management with AI"](https://thehindu.com/eco-swachh)
-- [YourStory: "How Eco Swachh is Making India Cleaner"](https://yourstory.com/eco-swachh)
-
-## 🔗 Related Projects
-
-- **[Eco Swachh Mobile App](https://github.com/yourusername/eco-swachh-mobile)** - React Native mobile application
-- **[Eco Swachh API](https://github.com/yourusername/eco-swachh-api)** - Standalone API server
-- **[Eco Swachh Dashboard](https://github.com/yourusername/eco-swachh-dashboard)** - Admin dashboard
-- **[Eco Swachh SDK](https://github.com/yourusername/eco-swachh-sdk)** - JavaScript SDK
+- **🥇 Innovation in Sustainability** - HackGCU 2025
 
 ## 📊 Impact Metrics
 
@@ -771,16 +741,16 @@ This project uses several open-source libraries. We're grateful to their maintai
   <p>Made with ❤️ for a cleaner India</p>
   <p>🇮🇳 Eco Swachh - One more step towards the clean India</p>
   
-  <a href="https://github.com/yourusername/smart-waste-management/stargazers">
-    <img src="https://img.shields.io/github/stars/yourusername/smart-waste-management?style=social" alt="Stars">
+  <a href="https://github.com/nilavtalukdar06/smart-waste-management/stargazers">
+    <img src="https://img.shields.io/github/stars/nilavtalukdar06/smart-waste-management?style=social" alt="Stars">
   </a>
-  <a href="https://github.com/yourusername/smart-waste-management/network">
-    <img src="https://img.shields.io/github/forks/yourusername/smart-waste-management?style=social" alt="Forks">
+  <a href="https://github.com/nilavtalukdar06/smart-waste-management/network">
+    <img src="https://img.shields.io/github/forks/nilavtalukdar06/smart-waste-management?style=social" alt="Forks">
   </a>
-  <a href="https://github.com/yourusername/smart-waste-management/issues">
-    <img src="https://img.shields.io/github/issues/yourusername/smart-waste-management" alt="Issues">
+  <a href="https://github.com/nilavtalukdar06/smart-waste-management/issues">
+    <img src="https://img.shields.io/github/issues/nilavtalukdar06/smart-waste-management" alt="Issues">
   </a>
-  <a href="https://github.com/yourusername/smart-waste-management/blob/main/LICENSE">
-    <img src="https://img.shields.io/github/license/yourusername/smart-waste-management" alt="License">
+  <a href="https://github.com/nilavtalukdar06/smart-waste-management/blob/main/LICENSE">
+    <img src="https://img.shields.io/github/license/nilavtalukdar06/smart-waste-management" alt="License">
   </a>
 </div>
