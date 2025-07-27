@@ -8,7 +8,6 @@ The Eco Swachh API provides a comprehensive set of endpoints for waste managemen
 
 ```
 Development: http://localhost:3000/api
-Production: https://your-domain.com/api
 ```
 
 ## Authentication
@@ -598,85 +597,3 @@ X-Per-Page: 10
   }
 }
 ```
-
-## SDKs and Libraries
-
-### JavaScript/TypeScript
-
-```bash
-npm install eco-swachh-sdk
-```
-
-```javascript
-import { EcoSwachhAPI } from "eco-swachh-sdk";
-
-const api = new EcoSwachhAPI({
-  baseURL: "https://api.ecoswachh.com",
-  token: "your-jwt-token",
-});
-
-// Report waste
-const report = await api.waste.report({
-  type: "plastic",
-  items: "water bottles",
-  weight: "2.5 kg",
-  location: "12.9716,77.5946",
-  imageUrl: "https://example.com/image.jpg",
-});
-```
-
-### Python
-
-```bash
-pip install eco-swachh-python
-```
-
-```python
-from eco_swachh import EcoSwachhAPI
-
-api = EcoSwachhAPI(
-    base_url='https://api.ecoswachh.com',
-    token='your-jwt-token'
-)
-
-# Report waste
-report = api.waste.report(
-    type='plastic',
-    items='water bottles',
-    weight='2.5 kg',
-    location='12.9716,77.5946',
-    image_url='https://example.com/image.jpg'
-)
-```
-
-## Testing
-
-### Test Environment
-
-Use the test environment for development:
-
-```
-Base URL: https://test-api.ecoswachh.com
-```
-
-### Test Credentials
-
-```json
-{
-  "email": "test@ecoswachh.com",
-  "password": "testpassword123"
-}
-```
-
-## Support
-
-For API support and questions:
-
-- **Documentation**: [API Docs](https://docs.ecoswachh.com)
-- **SDK Documentation**: [SDK Docs](https://sdk.ecoswachh.com)
-- **Support Email**: api-support@ecoswachh.com
-- **Status Page**: [API Status](https://status.ecoswachh.com)
-
----
-
-**Note**: This API documentation is versioned. Check the version header in responses for compatibility information.
